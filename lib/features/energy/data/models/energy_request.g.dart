@@ -9,17 +9,11 @@ part of 'energy_request.dart';
 EnergyRequest _$EnergyRequestFromJson(Map<String, dynamic> json) =>
     EnergyRequest(
       date: json['date'] as String,
-      type: $enumDecode(_$EnergyTypeEnumMap, json['type']),
+      type: json['type'] as String,
     );
 
 Map<String, dynamic> _$EnergyRequestToJson(EnergyRequest instance) =>
     <String, dynamic>{
       'date': instance.date,
-      'type': _$EnergyTypeEnumMap[instance.type]!,
+      'type': instance.type,
     };
-
-const _$EnergyTypeEnumMap = {
-  EnergyType.solar: 'solar',
-  EnergyType.house: 'house',
-  EnergyType.battery: 'battery',
-};

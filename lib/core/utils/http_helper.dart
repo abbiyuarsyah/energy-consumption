@@ -12,7 +12,7 @@ class HttpClientHelper {
     required HttpMethod method,
     Map<String, dynamic>? queryParameters,
   }) async {
-    final url = Uri.https(
+    final url = Uri.http(
       baseUrl,
       endpoint,
       queryParameters,

@@ -6,7 +6,7 @@ import 'package:energy_consumption/features/energy/domain/repositories/enery_rep
 import '../../../../core/utils/execptions.dart';
 import '../../../../core/utils/user_case.dart';
 
-class GetEnergy extends UseCase<List<EnergyEntity>, EnergyParams> {
+class GetEnergy extends UseCase<List<EnergyEntity>, GetEnergyParams> {
   GetEnergy({required this.repository});
 
   final EnergyRepository repository;
@@ -33,8 +33,8 @@ class GetEnergy extends UseCase<List<EnergyEntity>, EnergyParams> {
   }
 }
 
-class EnergyParams {
-  const EnergyParams({required this.date, required this.type});
+class GetEnergyParams {
+  const GetEnergyParams({required this.date, required this.type});
 
   final String date;
   final EnergyType type;

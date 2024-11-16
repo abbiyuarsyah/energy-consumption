@@ -2,6 +2,7 @@ import 'package:energy_consumption/features/energy/data/datasources/energy_datas
 import 'package:energy_consumption/features/energy/data/repositories/energy_repository_impl.dart';
 import 'package:energy_consumption/features/energy/domain/repositories/enery_repository.dart';
 import 'package:energy_consumption/features/energy/domain/use_case/get_energy.dart';
+import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
@@ -28,4 +29,7 @@ Future<void> init() async {
 
   /// User case
   sl.registerLazySingleton(() => GetEnergy(repository: sl()));
+
+  /// Bloc
+  sl.registerLazySingleton<EnergyBloc>(() => EnergyBloc(getEnergy: sl()));
 }

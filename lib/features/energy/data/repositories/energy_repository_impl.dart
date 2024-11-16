@@ -24,7 +24,7 @@ class EnergyRepositoryImpl implements EnergyRepository {
   }) async {
     if (await networkInfo.isConnected) {
       final result = await datasource.getEnergy(
-        EnergyRequest(date: date, type: type),
+        EnergyRequest(date: date, type: type.name),
       );
 
       return result.fold((l) => Left(ServerFailure()), (r) => Right(r));
