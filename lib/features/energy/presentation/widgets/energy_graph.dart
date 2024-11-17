@@ -15,7 +15,7 @@ class EnergyGraph extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EnergyBloc, EnergyState>(
       builder: (context, state) {
-        final energyList = state.energyList;
+        final energyList = state.selectedType.getData(state);
 
         return energyList.isEmpty
             ? const SizedBox()

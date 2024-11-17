@@ -5,7 +5,7 @@
     "energy_app": "Energy App",
     "solar": "Solar",
     "house": "House",
-    "Battery": "Battery",
+    "battery": "Battery",
     "you_energy_consumption": "Your Energy Consumption",
     "no_data_found": "Data could not be found",
     "something_went_wrong": "Something went wrong"

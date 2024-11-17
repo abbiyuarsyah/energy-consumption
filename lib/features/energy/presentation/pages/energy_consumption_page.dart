@@ -1,11 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:energy_consumption/core/enums/energy_type.dart';
-import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart';
-import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../core/constants/dimens.dart';
-import '../../../../core/service_locator/service_locator.dart';
 import '../widgets/energy_graph.dart';
 import '../widgets/energy_tab.dart';
 
@@ -14,8 +9,6 @@ class EnergyConsumptionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tabs = ["Tab 1", "Tab 2", "Tab 3"];
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

@@ -4,35 +4,47 @@ import 'package:equatable/equatable.dart';
 
 class EnergyState extends Equatable {
   const EnergyState({
-    required this.energyList,
+    required this.solar,
+    required this.house,
+    required this.battery,
     required this.minY,
     required this.maxY,
-    required this.interval,
     required this.selectedType,
   });
 
-  final List<EnergyEntity> energyList;
+  final List<EnergyEntity> solar;
+  final List<EnergyEntity> house;
+  final List<EnergyEntity> battery;
   final double minY;
   final double maxY;
-  final double interval;
   final EnergyType selectedType;
 
   EnergyState copyWith({
-    List<EnergyEntity>? energyList,
+    List<EnergyEntity>? solar,
+    List<EnergyEntity>? house,
+    List<EnergyEntity>? battery,
     double? minY,
     double? maxY,
     double? interval,
     EnergyType? selectedType,
   }) {
     return EnergyState(
-      energyList: energyList ?? this.energyList,
+      solar: solar ?? this.solar,
+      house: house ?? this.house,
+      battery: battery ?? this.battery,
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
-      interval: interval ?? this.interval,
       selectedType: selectedType ?? this.selectedType,
     );
   }
 
   @override
-  List<Object?> get props => [energyList, minY, maxY, interval, selectedType];
+  List<Object?> get props => [
+        solar,
+        house,
+        battery,
+        minY,
+        maxY,
+        selectedType,
+      ];
 }

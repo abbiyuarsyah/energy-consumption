@@ -30,6 +30,18 @@ class App extends StatelessWidget {
               date: DateTime.now().getStringDate,
               type: EnergyType.solar,
             ),
+          )
+          ..add(
+            GetEnergyEvent(
+              date: DateTime.now().getStringDate,
+              type: EnergyType.house,
+            ),
+          )
+          ..add(
+            GetEnergyEvent(
+              date: DateTime.now().getStringDate,
+              type: EnergyType.battery,
+            ),
           ),
         child: OrientationBuilder(builder: (context, orientation) {
           return const EnergyConsumptionPage();

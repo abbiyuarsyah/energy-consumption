@@ -10,3 +10,9 @@ class GetEnergyEvent extends EnergyEvent {
   final String date;
   final EnergyType type;
 }
+
+class SelectEnergyTypeEvent extends EnergyEvent {
+  const SelectEnergyTypeEvent({required this.type});
+
+  final EnergyType type;
+}
