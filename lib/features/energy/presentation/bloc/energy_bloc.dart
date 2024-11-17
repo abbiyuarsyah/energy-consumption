@@ -15,9 +15,11 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
           minY: 0,
           maxY: 0,
           selectedType: EnergyType.solar,
+          isWatts: true,
         )) {
     on<GetEnergyEvent>(_onGetEnergyEvent, transformer: concurrent());
     on<SelectEnergyTypeEvent>(_onSelectEnergyTypeEvent);
+    on<SwitchUnitEvent>(_onSwitchUnitEvent);
   }
 
   final GetEnergy getEnergy;
@@ -73,5 +75,12 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     Emitter<EnergyState> emit,
   ) async {
     emit(state.copyWith(selectedType: event.type));
+  }
+
+  Future<void> _onSwitchUnitEvent(
+    SwitchUnitEvent event,
+    Emitter<EnergyState> emit,
+  ) async {
+    emit(state.copyWith(isWatts: event.isWatts));
   }
 }

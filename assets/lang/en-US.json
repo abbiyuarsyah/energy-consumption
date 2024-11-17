@@ -5,6 +5,8 @@
     "energy_app": "Energy App",
     "solar": "Solar",
     "house": "House",
+    "watts": "Watts",
+    "kilowatts": "Kilowatts",
     "battery": "Battery",
     "you_energy_consumption": "Your Energy Consumption",
     "no_data_found": "Data could not be found",

@@ -1,3 +1,4 @@
+import 'package:energy_consumption/core/extensions/double_formatter.dart';
 import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart';
@@ -78,11 +79,12 @@ class EnergyGraph extends StatelessWidget {
                         leftTitles: AxisTitles(
                           sideTitles: SideTitles(
                             showTitles: true,
-                            reservedSize: 40,
+                            reservedSize: 30,
                             getTitlesWidget: (value, meta) => _LeftTitles(
                               value: value,
                               meta: meta,
                               minY: state.minY,
+                              isWatts: state.isWatts,
                             ),
                             interval: 1000,
                           ),
@@ -119,11 +121,13 @@ class _LeftTitles extends StatelessWidget {
     required this.value,
     required this.meta,
     required this.minY,
+    required this.isWatts,
   });
 
   final double value;
   final TitleMeta meta;
   final double minY;
+  final bool isWatts;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +135,12 @@ class _LeftTitles extends StatelessWidget {
       return const SizedBox();
     }
 
-    String formatted = (value / 1000).round().toString();
+    final unit = isWatts ? value : value.wattsToKilowatts;
+    var formatted = '${unit.round()} kW';
+
+    if (isWatts) {
+      formatted = '${(unit / 1000).round()}k W';
+    }
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -139,7 +148,7 @@ class _LeftTitles extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            '${formatted}k watt',
+            formatted,
             style: const TextStyle(
               fontSize: 10,
             ),

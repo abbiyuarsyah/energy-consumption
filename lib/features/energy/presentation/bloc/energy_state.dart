@@ -10,6 +10,7 @@ class EnergyState extends Equatable {
     required this.minY,
     required this.maxY,
     required this.selectedType,
+    required this.isWatts,
   });
 
   final List<EnergyEntity> solar;
@@ -18,6 +19,7 @@ class EnergyState extends Equatable {
   final double minY;
   final double maxY;
   final EnergyType selectedType;
+  final bool isWatts;
 
   EnergyState copyWith({
     List<EnergyEntity>? solar,
@@ -27,6 +29,7 @@ class EnergyState extends Equatable {
     double? maxY,
     double? interval,
     EnergyType? selectedType,
+    bool? isWatts,
   }) {
     return EnergyState(
       solar: solar ?? this.solar,
@@ -35,6 +38,7 @@ class EnergyState extends Equatable {
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
       selectedType: selectedType ?? this.selectedType,
+      isWatts: isWatts ?? this.isWatts,
     );
   }
 
@@ -46,5 +50,6 @@ class EnergyState extends Equatable {
         minY,
         maxY,
         selectedType,
+        isWatts,
       ];
 }

@@ -16,3 +16,9 @@ class SelectEnergyTypeEvent extends EnergyEvent {
 
   final EnergyType type;
 }
+
+class SwitchUnitEvent extends EnergyEvent {
+  const SwitchUnitEvent({required this.isWatts});
+
+  final bool isWatts;
+}

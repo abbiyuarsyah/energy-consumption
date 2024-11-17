@@ -15,6 +15,7 @@ dependencies:
   fl_chart: ^0.69.0
   flutter:
     sdk: flutter
+  flutter_advanced_switch: ^3.1.0
   flutter_bloc: ^8.1.6
   flutter_svg: ^2.0.10+1
   get_it: ^8.0.2

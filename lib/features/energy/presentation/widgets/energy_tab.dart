@@ -38,7 +38,7 @@ class EnergyTab extends StatelessWidget {
                   border: Border.all(
                     color: state.selectedType.index == index
                         ? Colors.lightBlueAccent
-                        : Colors.grey,
+                        : Colors.black26,
                     width: 1.5,
                   ),
                 ),
