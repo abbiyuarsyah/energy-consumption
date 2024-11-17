@@ -8,11 +8,11 @@ import '../../../../core/enums/http_method.dart';
 import '../../../../core/utils/execptions.dart';
 import '../../../../core/utils/http_helper.dart';
 
-abstract class EnergyDatasource {
+abstract class EnergyRemoteDatasource {
   Future<Either<Exception, List<EnergyModel>>> getEnergy(EnergyRequest request);
 }
 
-class EnergyDatasourceImpl implements EnergyDatasource {
+class EnergyDatasourceImpl implements EnergyRemoteDatasource {
   const EnergyDatasourceImpl({required this.httpClient});
 
   final HttpClientHelper httpClient;

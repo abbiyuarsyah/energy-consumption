@@ -1,60 +1,61 @@
 import 'package:energy_consumption/core/enums/energy_type.dart';
+import 'package:energy_consumption/core/enums/state_status.dart';
 import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart';
 import 'package:equatable/equatable.dart';
 
 class EnergyState extends Equatable {
   const EnergyState({
-    required this.solar,
-    required this.house,
-    required this.battery,
-    required this.minY,
-    required this.maxY,
+    required this.energy,
     required this.selectedType,
-    required this.isKiloWatts,
+    required this.isKilowatts,
     required this.selectedEnergyEntity,
+    required this.stateStatus,
   });
 
-  final List<EnergyEntity> solar;
-  final List<EnergyEntity> house;
-  final List<EnergyEntity> battery;
-  final double minY;
-  final double maxY;
+  final List<EnergyTypeMapper> energy;
   final EnergyType selectedType;
-  final bool isKiloWatts;
+  final bool isKilowatts;
   final EnergyEntity selectedEnergyEntity;
+  final StateStatus stateStatus;
 
   EnergyState copyWith({
-    List<EnergyEntity>? solar,
-    List<EnergyEntity>? house,
-    List<EnergyEntity>? battery,
-    double? minY,
-    double? maxY,
+    List<EnergyTypeMapper>? energy,
     double? interval,
     EnergyType? selectedType,
-    bool? isKiloWatts,
+    bool? isKilowatts,
     EnergyEntity? selectedEnergyEntity,
+    StateStatus? stateStatus,
   }) {
     return EnergyState(
-      solar: solar ?? this.solar,
-      house: house ?? this.house,
-      battery: battery ?? this.battery,
-      minY: minY ?? this.minY,
-      maxY: maxY ?? this.maxY,
+      energy: energy ?? this.energy,
       selectedType: selectedType ?? this.selectedType,
-      isKiloWatts: isKiloWatts ?? this.isKiloWatts,
+      isKilowatts: isKilowatts ?? this.isKilowatts,
       selectedEnergyEntity: selectedEnergyEntity ?? this.selectedEnergyEntity,
+      stateStatus: stateStatus ?? this.stateStatus,
     );
   }
 
   @override
   List<Object?> get props => [
-        solar,
-        house,
-        battery,
-        minY,
-        maxY,
+        energy,
         selectedType,
-        isKiloWatts,
+        isKilowatts,
         selectedEnergyEntity,
+        stateStatus,
       ];
+}
+
+class EnergyTypeMapper extends Equatable {
+  const EnergyTypeMapper({
+    required this.energyList,
+    required this.minY,
+    required this.maxY,
+  });
+
+  final List<EnergyEntity> energyList;
+  final double minY;
+  final double maxY;
+
+  @override
+  List<Object?> get props => [energyList, minY, maxY];
 }

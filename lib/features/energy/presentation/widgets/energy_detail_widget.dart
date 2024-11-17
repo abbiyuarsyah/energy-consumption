@@ -55,7 +55,7 @@ class EnergyDetailWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    state.isKiloWatts ? tr('kilowatts') : tr('watts'),
+                    state.isKilowatts ? tr('kilowatts') : tr('watts'),
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class EnergyDetailWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: Dimens.small),
                   Text(
-                    state.isKiloWatts ? kilowattValue : wattValue,
+                    state.isKilowatts ? kilowattValue : wattValue,
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,

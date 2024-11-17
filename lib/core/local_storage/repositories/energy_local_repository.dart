@@ -43,14 +43,20 @@ class EnergyLocalRepository
 
   @override
   Future<List<EnergyLocalModel>> getDataFiltered(EnergyRequest request) async {
-    final values = _box.values
-        .cast<EnergyLocalModel>()
-        .where(
-          (energy) =>
-              energy.timestamp == DateTime.parse(request.date) &&
-              energy.type == request.type,
-        )
-        .toList();
+    final values = _box.values.cast<EnergyLocalModel>().where((energy) {
+      DateTime dateOnly = DateTime(
+        energy.timestamp.year,
+        energy.timestamp.month,
+        energy.timestamp.day,
+      );
+
+      if (dateOnly == DateTime.parse(request.date) &&
+          energy.type == request.type) {
+        return true;
+      }
+
+      return false;
+    }).toList();
     return values.isEmpty
         ? Future.value([EnergyLocalModel.empty()])
         : Future.value(values);

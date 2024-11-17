@@ -1,4 +1,3 @@
-import 'package:energy_consumption/core/enums/energy_type.dart';
 import 'package:energy_consumption/core/local_storage/models/energy_local_model.dart';
 
 import '../../../../core/local_storage/local_storage.dart';
@@ -10,7 +9,7 @@ abstract class EnergyLocalDatasource {
   Future<List<EnergyModel>> getEnergy(EnergyRequest request);
   Future<void> addEnergy(
     List<EnergyModel> energyModelList,
-    EnergyType type,
+    String type,
   );
 }
 
@@ -22,7 +21,7 @@ class EnergyLocalDatasourceImpl implements EnergyLocalDatasource {
   @override
   Future<void> addEnergy(
     List<EnergyModel> energyModelList,
-    EnergyType type,
+    String type,
   ) async {
     try {
       await localStorage.open();
@@ -51,13 +50,13 @@ class EnergyLocalDatasourceImpl implements EnergyLocalDatasource {
 
   Future<EnergyLocalModel> mapToLocal(
     EnergyModel energyModel,
-    EnergyType type,
+    String type,
   ) async {
     return EnergyLocalModel(
       id: const Uuid().v4(),
       timestamp: energyModel.timestamp ?? DateTime.now(),
       value: energyModel.value ?? 0,
-      type: type.name,
+      type: type,
     );
   }
 

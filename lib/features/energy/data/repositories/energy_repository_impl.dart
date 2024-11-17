@@ -5,17 +5,20 @@ import '../../../../core/enums/energy_type.dart';
 import '../../../../core/utils/execptions.dart';
 import '../../../../core/utils/network_info.dart';
 import '../../domain/repositories/enery_repository.dart';
-import '../datasources/energy_datasource.dart';
+import '../datasources/energy_local_datasource.dart';
+import '../datasources/energy_remote_datasource.dart';
 import '../models/energy_model.dart';
 
 class EnergyRepositoryImpl implements EnergyRepository {
   const EnergyRepositoryImpl({
     required this.networkInfo,
     required this.datasource,
+    required this.localDatasoure,
   });
 
   final NetworkInfo networkInfo;
-  final EnergyDatasource datasource;
+  final EnergyRemoteDatasource datasource;
+  final EnergyLocalDatasource localDatasoure;
 
   @override
   Future<Either<Failure, List<EnergyModel>>> getEnergy({
@@ -23,29 +26,41 @@ class EnergyRepositoryImpl implements EnergyRepository {
     required EnergyType type,
   }) async {
     if (await networkInfo.isConnected) {
-      final result = await datasource.getEnergy(
-        EnergyRequest(date: date, type: type.name),
-      );
+      try {
+        List<EnergyModel> list = [];
+        final request = EnergyRequest(date: date, type: type.name);
 
-      return result.fold((l) => Left(ServerFailure()), (r) => Right(r));
+        final localData = await localDatasoure.getEnergy(request);
+        if (localData.length > 1) {
+          return Right(localData);
+        }
+
+        final result = await datasource.getEnergy(request);
+        result.fold((l) {
+          return Left(ServerFailure());
+        }, (r) {
+          localDatasoure.addEnergy(r, request.type);
+          list = r;
+        });
+
+        return Right(list);
+      } catch (_) {
+        return Left(ServerFailure());
+      }
     } else {
-      return Left(NetworkFailure());
+      try {
+        final localData = await localDatasoure.getEnergy(
+          EnergyRequest(date: date, type: type.name),
+        );
+
+        if (localData.isNotEmpty) {
+          return Right(localData);
+        } else {
+          return Left(NetworkFailure());
+        }
+      } catch (_) {
+        return Left(GetEnergyLocalFailure());
+      }
     }
   }
-
-  // @override
-  // Future<Either<Failure, List<EnergyModel>>> getEnergy({
-  //   required double date,
-  //   required EnergyType type,
-  // }) async {
-  //   if (await networkInfo.isConnected) {
-  //     final result = await datasource.getWeatherForecast(
-  //       WeatherForecastRequestModel(lat: "$lat", lon: "$long", q: city),
-  //     );
-
-  //     return result.fold((l) => Left(ServerFailure()), (r) => Right(r));
-  //   } else {
-  //     return Left(NetworkFailure());
-  //   }
-  // }
 }

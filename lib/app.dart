@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:energy_consumption/core/enums/energy_type.dart';
 import 'package:energy_consumption/core/extensions/date_formatter.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
@@ -26,22 +25,7 @@ class App extends StatelessWidget {
       home: BlocProvider(
         create: (BuildContext context) => sl<EnergyBloc>()
           ..add(
-            GetEnergyEvent(
-              date: DateTime.now().getStringDate,
-              type: EnergyType.solar,
-            ),
-          )
-          ..add(
-            GetEnergyEvent(
-              date: DateTime.now().getStringDate,
-              type: EnergyType.house,
-            ),
-          )
-          ..add(
-            GetEnergyEvent(
-              date: DateTime.now().getStringDate,
-              type: EnergyType.battery,
-            ),
+            GetEnergyEvent(date: DateTime.now().getStringDate),
           ),
         child: OrientationBuilder(builder: (context, orientation) {
           return const EnergyConsumptionPage();

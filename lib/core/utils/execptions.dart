@@ -11,3 +11,7 @@ class ServerFailure extends Failure {
 class NetworkFailure extends Failure {
   NetworkFailure();
 }
+
+class GetEnergyLocalFailure extends Failure {
+  GetEnergyLocalFailure();
+}

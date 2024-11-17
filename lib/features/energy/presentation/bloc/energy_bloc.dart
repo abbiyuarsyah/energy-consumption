@@ -1,5 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:energy_consumption/core/enums/energy_type.dart';
+import 'package:energy_consumption/core/enums/state_status.dart';
 import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart';
 import 'package:energy_consumption/features/energy/domain/use_case/get_energy.dart';
 
@@ -10,14 +11,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
   EnergyBloc({required this.getEnergy})
       : super(EnergyState(
-          solar: const [],
-          house: const [],
-          battery: const [],
-          minY: 0,
-          maxY: 0,
+          energy: const [],
           selectedType: EnergyType.solar,
-          isKiloWatts: false,
+          isKilowatts: false,
           selectedEnergyEntity: EnergyEntity.init(),
+          stateStatus: StateStatus.init,
         )) {
     on<GetEnergyEvent>(_onGetEnergyEvent, transformer: concurrent());
     on<SelectEnergyTypeEvent>(_onSelectEnergyTypeEvent);
@@ -31,61 +29,54 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     GetEnergyEvent event,
     Emitter<EnergyState> emit,
   ) async {
-    final result = await getEnergy(GetEnergyParams(
-      date: event.date,
-      type: event.type,
-    ));
+    final List<EnergyTypeMapper> energyMapper = [];
 
-    result.fold((l) {}, (r) {
-      final minY = r.reduce((a, b) => a.value < b.value ? a : b);
-      final maxY = r.reduce((a, b) => a.value > b.value ? a : b);
+    if (state.stateStatus != StateStatus.loading) {
+      emit(state.copyWith(stateStatus: StateStatus.loading));
+    }
 
-      switch (event.type) {
-        case EnergyType.house:
-          emit(
-            state.copyWith(
-              house: event.type == EnergyType.house ? r : [],
-              minY: minY.value.toDouble(),
-              maxY: maxY.value.toDouble(),
-              selectedEnergyEntity: r.last,
-            ),
-          );
-          break;
-        case EnergyType.solar:
-          emit(
-            state.copyWith(
-              solar: event.type == EnergyType.solar ? r : [],
-              minY: minY.value.toDouble(),
-              maxY: maxY.value.toDouble(),
-              selectedEnergyEntity: r.last,
-            ),
-          );
-          break;
-        case EnergyType.battery:
-          emit(
-            state.copyWith(
-              battery: event.type == EnergyType.battery ? r : [],
-              minY: minY.value.toDouble(),
-              maxY: maxY.value.toDouble(),
-              selectedEnergyEntity: r.last,
-            ),
-          );
-          break;
-        default:
-      }
-    });
+    for (final type in EnergyType.values) {
+      final result = await getEnergy(GetEnergyParams(
+        date: event.date,
+        type: type,
+      ));
+
+      result.fold((l) {
+        emit(state.copyWith(stateStatus: StateStatus.failed));
+      }, (r) {
+        final minY = r.reduce((a, b) => a.value < b.value ? a : b);
+        final maxY = r.reduce((a, b) => a.value > b.value ? a : b);
+
+        energyMapper.insert(
+          type.index,
+          EnergyTypeMapper(
+            energyList: r,
+            minY: minY.value.toDouble(),
+            maxY: maxY.value.toDouble(),
+          ),
+        );
+
+        if (energyMapper.length != 3) {
+          return;
+        }
+
+        emit(state.copyWith(
+          stateStatus: StateStatus.loaded,
+          selectedEnergyEntity: r.last,
+          energy: energyMapper,
+        ));
+      });
+    }
   }
 
   Future<void> _onSelectEnergyTypeEvent(
     SelectEnergyTypeEvent event,
     Emitter<EnergyState> emit,
   ) async {
-    var list = _selectedUnit(event.type);
-
     emit(
       state.copyWith(
         selectedType: event.type,
-        selectedEnergyEntity: list.last,
+        selectedEnergyEntity: state.energy[event.type.index].energyList.last,
       ),
     );
   }
@@ -94,7 +85,7 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     SwitchUnitEvent event,
     Emitter<EnergyState> emit,
   ) async {
-    emit(state.copyWith(isKiloWatts: event.isKiloWatts));
+    emit(state.copyWith(isKilowatts: event.isKiloWatts));
   }
 
   Future<void> _onSelectValueEvent(
@@ -102,30 +93,11 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     Emitter<EnergyState> emit,
   ) async {
     final selectedType = state.selectedType;
-    var list = _selectedUnit(selectedType);
+    var list = state.energy[selectedType.index].energyList;
     if (list.isEmpty) {
       return;
     }
 
     emit(state.copyWith(selectedEnergyEntity: list[event.selectedIndex]));
-  }
-
-  List<EnergyEntity> _selectedUnit(EnergyType type) {
-    List<EnergyEntity> list = [];
-
-    switch (type) {
-      case EnergyType.solar:
-        list = state.solar;
-        break;
-      case EnergyType.house:
-        list = state.house;
-        break;
-      case EnergyType.battery:
-        list = state.battery;
-        break;
-      default:
-    }
-
-    return list;
   }
 }

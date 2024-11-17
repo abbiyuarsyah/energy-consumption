@@ -17,7 +17,11 @@ class EnergyGraph extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EnergyBloc, EnergyState>(
       builder: (context, state) {
-        final energyList = state.selectedType.getData(state);
+        if (state.energy.isEmpty) {
+          return const SizedBox();
+        }
+
+        final energyList = state.energy[state.selectedType.index].energyList;
 
         return energyList.isEmpty
             ? const SizedBox()
@@ -60,8 +64,8 @@ class EnergyGraph extends StatelessWidget {
                       lineTouchData: GraphLineTouchData(),
                       maxX: energyList.length.toDouble(),
                       minX: 1,
-                      maxY: state.maxY,
-                      minY: state.minY,
+                      maxY: state.energy[state.selectedType.index].maxY,
+                      minY: state.energy[state.selectedType.index].minY,
                       gridData: FlGridData(
                         drawVerticalLine: false,
                         getDrawingHorizontalLine: (value) => const FlLine(
@@ -79,8 +83,8 @@ class EnergyGraph extends StatelessWidget {
                             getTitlesWidget: (value, meta) => _LeftTitles(
                               value: value,
                               meta: meta,
-                              minY: state.minY,
-                              isKiloWatts: state.isKiloWatts,
+                              minY: state.energy[state.selectedType.index].minY,
+                              isKiloWatts: state.isKilowatts,
                             ),
                             interval: 1000,
                           ),

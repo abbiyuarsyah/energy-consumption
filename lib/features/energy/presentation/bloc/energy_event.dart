@@ -5,10 +5,9 @@ abstract class EnergyEvent {
 }
 
 class GetEnergyEvent extends EnergyEvent {
-  const GetEnergyEvent({required this.date, required this.type});
+  const GetEnergyEvent({required this.date});
 
   final String date;
-  final EnergyType type;
 }
 
 class SelectEnergyTypeEvent extends EnergyEvent {

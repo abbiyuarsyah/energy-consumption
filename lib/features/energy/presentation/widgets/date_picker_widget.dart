@@ -74,10 +74,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       });
 
       sl<EnergyBloc>().add(
-        GetEnergyEvent(
-          date: pickedDate.getStringDate,
-          type: sl<EnergyBloc>().state.selectedType,
-        ),
+        GetEnergyEvent(date: pickedDate.getStringDate),
       );
     }
   }
