@@ -56,7 +56,9 @@ class EnergyLocalRepository
       }
 
       return false;
-    }).toList();
+    }).toList()
+      ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
+
     return values.isEmpty
         ? Future.value([EnergyLocalModel.empty()])
         : Future.value(values);

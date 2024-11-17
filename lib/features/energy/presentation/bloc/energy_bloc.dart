@@ -1,4 +1,3 @@
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:energy_consumption/core/enums/energy_type.dart';
 import 'package:energy_consumption/core/enums/state_status.dart';
 import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart';
@@ -16,11 +15,13 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
           isKilowatts: false,
           selectedEnergyEntity: EnergyEntity.init(),
           stateStatus: StateStatus.init,
+          selectedDate: DateTime.now(),
         )) {
-    on<GetEnergyEvent>(_onGetEnergyEvent, transformer: concurrent());
+    on<GetEnergyEvent>(_onGetEnergyEvent);
     on<SelectEnergyTypeEvent>(_onSelectEnergyTypeEvent);
     on<SwitchUnitEvent>(_onSwitchUnitEvent);
     on<SelectValueEvent>(_onSelectValueEvent);
+    on<SelectDateEvent>(_onSelectDateEvent);
   }
 
   final GetEnergy getEnergy;
@@ -86,6 +87,13 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     Emitter<EnergyState> emit,
   ) async {
     emit(state.copyWith(isKilowatts: event.isKiloWatts));
+  }
+
+  Future<void> _onSelectDateEvent(
+    SelectDateEvent event,
+    Emitter<EnergyState> emit,
+  ) async {
+    emit(state.copyWith(selectedDate: event.selectedDate));
   }
 
   Future<void> _onSelectValueEvent(

@@ -10,6 +10,7 @@ class EnergyState extends Equatable {
     required this.isKilowatts,
     required this.selectedEnergyEntity,
     required this.stateStatus,
+    required this.selectedDate,
   });
 
   final List<EnergyTypeMapper> energy;
@@ -17,6 +18,7 @@ class EnergyState extends Equatable {
   final bool isKilowatts;
   final EnergyEntity selectedEnergyEntity;
   final StateStatus stateStatus;
+  final DateTime selectedDate;
 
   EnergyState copyWith({
     List<EnergyTypeMapper>? energy,
@@ -25,6 +27,7 @@ class EnergyState extends Equatable {
     bool? isKilowatts,
     EnergyEntity? selectedEnergyEntity,
     StateStatus? stateStatus,
+    DateTime? selectedDate,
   }) {
     return EnergyState(
       energy: energy ?? this.energy,
@@ -32,6 +35,7 @@ class EnergyState extends Equatable {
       isKilowatts: isKilowatts ?? this.isKilowatts,
       selectedEnergyEntity: selectedEnergyEntity ?? this.selectedEnergyEntity,
       stateStatus: stateStatus ?? this.stateStatus,
+      selectedDate: selectedDate ?? this.selectedDate,
     );
   }
 
@@ -42,6 +46,7 @@ class EnergyState extends Equatable {
         isKilowatts,
         selectedEnergyEntity,
         stateStatus,
+        selectedDate,
       ];
 }
 

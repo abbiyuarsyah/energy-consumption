@@ -27,3 +27,9 @@ class SelectValueEvent extends EnergyEvent {
 
   final int selectedIndex;
 }
+
+class SelectDateEvent extends EnergyEvent {
+  const SelectDateEvent({required this.selectedDate});
+
+  final DateTime selectedDate;
+}

@@ -1,6 +1,8 @@
 import 'package:energy_consumption/core/extensions/date_formatter.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
+import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/dimens.dart';
 import '../../../../core/service_locator/service_locator.dart';
@@ -19,7 +21,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   @override
   void initState() {
     super.initState();
-    _dateController.text = DateTime.now().getStringUIDate;
+    final selectedDate = sl<EnergyBloc>().state.selectedDate;
+    _dateController.text = selectedDate.getStringUIDate;
   }
 
   @override
@@ -27,35 +30,41 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     return SizedBox(
       width: 140,
       height: 30,
-      child: TextField(
-        controller: _dateController,
-        readOnly: true,
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 14,
-        ),
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimens.large),
-            borderSide: const BorderSide(
-              color: Colors.grey,
-              width: Dimens.extraSmall,
+      child: BlocBuilder<EnergyBloc, EnergyState>(
+        builder: (context, state) {
+          _dateController.text = state.selectedDate.getStringUIDate;
+
+          return TextField(
+            controller: _dateController,
+            readOnly: true,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 14,
             ),
-          ),
-          labelText: 'Select Date',
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: Dimens.small,
-            horizontal: Dimens.medium,
-          ),
-          suffixIcon: const Icon(
-            Icons.calendar_today,
-            size: Dimens.large,
-            color: Colors.grey,
-          ),
-        ),
-        onTap: () => _selectDate(
-          context,
-        ),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(Dimens.large),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: Dimens.extraSmall,
+                ),
+              ),
+              labelText: 'Select Date',
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: Dimens.small,
+                horizontal: Dimens.medium,
+              ),
+              suffixIcon: const Icon(
+                Icons.calendar_today,
+                size: Dimens.large,
+                color: Colors.grey,
+              ),
+            ),
+            onTap: () => _selectDate(
+              context,
+            ),
+          );
+        },
       ),
     );
   }
@@ -73,9 +82,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         _dateController.text = pickedDate.getStringUIDate;
       });
 
-      sl<EnergyBloc>().add(
-        GetEnergyEvent(date: pickedDate.getStringDate),
-      );
+      sl<EnergyBloc>().add(SelectDateEvent(selectedDate: pickedDate));
+      sl<EnergyBloc>().add(GetEnergyEvent(date: pickedDate.getStringDate));
     }
   }
 
