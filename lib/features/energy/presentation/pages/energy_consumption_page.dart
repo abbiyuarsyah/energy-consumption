@@ -6,6 +6,7 @@ import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import '../../../../core/constants/dimens.dart';
 import '../../../../core/service_locator/service_locator.dart';
 import '../bloc/energy_bloc.dart';
+import '../widgets/date_picker_widget.dart';
 import '../widgets/energy_detail_widget.dart';
 import '../widgets/energy_graph_widget.dart';
 import '../widgets/energy_tab_widget.dart';
@@ -70,25 +71,31 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: Dimens.large),
-                AdvancedSwitch(
-                  controller: _controller,
-                  activeColor: Colors.blue.shade900,
-                  inactiveColor: Colors.blue.shade500,
-                  activeChild: Text(tr('kilowatts')),
-                  inactiveChild: Text(
-                    tr('watts'),
-                    style: const TextStyle(
-                      color: Colors.white,
+                const SizedBox(height: Dimens.extraLarge),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AdvancedSwitch(
+                      controller: _controller,
+                      activeColor: Colors.blue.shade900,
+                      inactiveColor: Colors.blue.shade500,
+                      activeChild: Text(tr('kilowatts')),
+                      inactiveChild: Text(
+                        tr('watts'),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(Dimens.large),
+                      ),
+                      width: 120.0,
+                      height: 30.0,
+                      enabled: true,
+                      disabledOpacity: 0.5,
                     ),
-                  ),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(Dimens.large),
-                  ),
-                  width: 120.0,
-                  height: 30.0,
-                  enabled: true,
-                  disabledOpacity: 0.5,
+                    const DatePickerWidget(),
+                  ],
                 ),
                 const SizedBox(height: Dimens.xxLarge),
                 const EnergyGraph(),

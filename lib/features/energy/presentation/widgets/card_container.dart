@@ -25,16 +25,16 @@ class CardContainer extends StatelessWidget {
         color: color,
         borderRadius: BorderRadius.only(
           topLeft: isTopRounded
-              ? const Radius.circular(20)
+              ? const Radius.circular(Dimens.large)
               : const Radius.circular(0),
           topRight: isTopRounded
-              ? const Radius.circular(20)
+              ? const Radius.circular(Dimens.large)
               : const Radius.circular(0),
           bottomLeft: isBottomRounded
-              ? const Radius.circular(20)
+              ? const Radius.circular(Dimens.large)
               : const Radius.circular(0),
           bottomRight: isBottomRounded
-              ? const Radius.circular(20)
+              ? const Radius.circular(Dimens.large)
               : const Radius.circular(0),
         ),
       ),
