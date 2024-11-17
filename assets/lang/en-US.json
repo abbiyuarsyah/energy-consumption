@@ -8,6 +8,7 @@
     "watts": "Watts",
     "kilowatts": "Kilowatts",
     "battery": "Battery",
+    "time": "Time",
     "you_energy_consumption": "Your Energy Consumption",
     "no_data_found": "Data could not be found",
     "something_went_wrong": "Something went wrong"

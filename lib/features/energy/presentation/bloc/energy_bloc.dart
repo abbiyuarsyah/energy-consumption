@@ -1,5 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:energy_consumption/core/enums/energy_type.dart';
+import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart';
 import 'package:energy_consumption/features/energy/domain/use_case/get_energy.dart';
 
 import 'energy_event.dart';
@@ -8,18 +9,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
   EnergyBloc({required this.getEnergy})
-      : super(const EnergyState(
-          solar: [],
-          house: [],
-          battery: [],
+      : super(EnergyState(
+          solar: const [],
+          house: const [],
+          battery: const [],
           minY: 0,
           maxY: 0,
           selectedType: EnergyType.solar,
-          isWatts: true,
+          isKiloWatts: false,
+          selectedEnergyEntity: EnergyEntity.init(),
         )) {
     on<GetEnergyEvent>(_onGetEnergyEvent, transformer: concurrent());
     on<SelectEnergyTypeEvent>(_onSelectEnergyTypeEvent);
     on<SwitchUnitEvent>(_onSwitchUnitEvent);
+    on<SelectValueEvent>(_onSelectValueEvent);
   }
 
   final GetEnergy getEnergy;
@@ -44,6 +47,7 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
               house: event.type == EnergyType.house ? r : [],
               minY: minY.value.toDouble(),
               maxY: maxY.value.toDouble(),
+              selectedEnergyEntity: r.last,
             ),
           );
           break;
@@ -53,6 +57,7 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
               solar: event.type == EnergyType.solar ? r : [],
               minY: minY.value.toDouble(),
               maxY: maxY.value.toDouble(),
+              selectedEnergyEntity: r.last,
             ),
           );
           break;
@@ -62,6 +67,7 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
               battery: event.type == EnergyType.battery ? r : [],
               minY: minY.value.toDouble(),
               maxY: maxY.value.toDouble(),
+              selectedEnergyEntity: r.last,
             ),
           );
           break;
@@ -81,6 +87,33 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     SwitchUnitEvent event,
     Emitter<EnergyState> emit,
   ) async {
-    emit(state.copyWith(isWatts: event.isWatts));
+    emit(state.copyWith(isKiloWatts: event.isKiloWatts));
+  }
+
+  Future<void> _onSelectValueEvent(
+    SelectValueEvent event,
+    Emitter<EnergyState> emit,
+  ) async {
+    final selectedType = state.selectedType;
+    var list = [];
+
+    switch (selectedType) {
+      case EnergyType.solar:
+        list = state.solar;
+        break;
+      case EnergyType.house:
+        list = state.house;
+        break;
+      case EnergyType.battery:
+        list = state.battery;
+        break;
+      default:
+    }
+
+    if (list.isEmpty) {
+      return;
+    }
+
+    emit(state.copyWith(selectedEnergyEntity: list[event.selectedIndex]));
   }
 }

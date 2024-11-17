@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
+import 'package:energy_consumption/features/energy/presentation/widgets/card_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import '../../../../core/constants/dimens.dart';
 import '../../../../core/service_locator/service_locator.dart';
 import '../bloc/energy_bloc.dart';
-import '../widgets/energy_graph.dart';
-import '../widgets/energy_tab.dart';
+import '../widgets/energy_detail_widget.dart';
+import '../widgets/energy_graph_widget.dart';
+import '../widgets/energy_tab_widget.dart';
 
 class EnergyConsumptionPage extends StatefulWidget {
   const EnergyConsumptionPage({super.key});
@@ -21,9 +23,8 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
   @override
   void initState() {
     super.initState();
-
     _controller.addListener(() {
-      sl<EnergyBloc>().add(SwitchUnitEvent(isWatts: _controller.value));
+      sl<EnergyBloc>().add(SwitchUnitEvent(isKiloWatts: _controller.value));
     });
   }
 
@@ -48,45 +49,61 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
           ],
         ),
       ),
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(Dimens.large),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const EnergyTab(),
-            const SizedBox(height: Dimens.large),
-            Text(
-              tr('you_energy_consumption'),
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: Dimens.large),
-            AdvancedSwitch(
-              controller: _controller,
-              activeColor: Colors.blue.shade900,
-              inactiveColor: Colors.blue.shade500,
-              activeChild: Text(tr('kilowatts')),
-              inactiveChild: Text(
-                tr('watts'),
-                style: const TextStyle(
-                  color: Colors.white,
+      backgroundColor: Colors.grey[200],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const CardContainer(
+            isBottomRounded: true,
+            child: EnergyTab(),
+          ),
+          const SizedBox(height: Dimens.large),
+          CardContainer(
+            isTopRounded: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  tr('you_energy_consumption'),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(Dimens.large),
-              ),
-              width: 120.0,
-              height: 30.0,
-              enabled: true,
-              disabledOpacity: 0.5,
+                const SizedBox(height: Dimens.large),
+                AdvancedSwitch(
+                  controller: _controller,
+                  activeColor: Colors.blue.shade900,
+                  inactiveColor: Colors.blue.shade500,
+                  activeChild: Text(tr('kilowatts')),
+                  inactiveChild: Text(
+                    tr('watts'),
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(Dimens.large),
+                  ),
+                  width: 120.0,
+                  height: 30.0,
+                  enabled: true,
+                  disabledOpacity: 0.5,
+                ),
+                const SizedBox(height: Dimens.xxLarge),
+                const EnergyGraph(),
+                const SizedBox(height: Dimens.large),
+              ],
             ),
-            const SizedBox(height: Dimens.xxLarge),
-            const EnergyGraph(),
-          ],
-        ),
+          ),
+          const SizedBox(height: Dimens.large),
+          const Expanded(
+            child: CardContainer(
+              isTopRounded: true,
+              child: EnergyDetailWidget(),
+            ),
+          )
+        ],
       ),
     );
   }

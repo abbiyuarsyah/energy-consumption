@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/dimens.dart';
+import 'graph_line_trouch_data.dart';
 
 class EnergyGraph extends StatelessWidget {
   const EnergyGraph({super.key});
@@ -56,12 +57,7 @@ class EnergyGraph extends StatelessWidget {
                           ),
                         ),
                       ],
-                      // lineTouchData: _WeightGraphLineTouchData(
-                      //   notifier: ref.read(
-                      //     weightGraphMeasurementsNotifier(measurements).notifier,
-                      //   ),
-                      //   theme: theme,
-                      // ),
+                      lineTouchData: GraphLineTouchData(),
                       maxX: energyList.length.toDouble(),
                       minX: 1,
                       maxY: state.maxY,
@@ -84,7 +80,7 @@ class EnergyGraph extends StatelessWidget {
                               value: value,
                               meta: meta,
                               minY: state.minY,
-                              isWatts: state.isWatts,
+                              isKiloWatts: state.isKiloWatts,
                             ),
                             interval: 1000,
                           ),
@@ -121,13 +117,13 @@ class _LeftTitles extends StatelessWidget {
     required this.value,
     required this.meta,
     required this.minY,
-    required this.isWatts,
+    required this.isKiloWatts,
   });
 
   final double value;
   final TitleMeta meta;
   final double minY;
-  final bool isWatts;
+  final bool isKiloWatts;
 
   @override
   Widget build(BuildContext context) {
@@ -135,11 +131,11 @@ class _LeftTitles extends StatelessWidget {
       return const SizedBox();
     }
 
-    final unit = isWatts ? value : value.wattsToKilowatts;
-    var formatted = '${unit.round()} kW';
+    final unit = isKiloWatts ? value.wattsToKilowatts : value;
+    var formatted = '${(unit / 1000).round()}k W';
 
-    if (isWatts) {
-      formatted = '${(unit / 1000).round()}k W';
+    if (isKiloWatts) {
+      formatted = '${unit.round()} kW';
     }
 
     return SideTitleWidget(

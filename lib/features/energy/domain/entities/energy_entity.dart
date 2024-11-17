@@ -3,4 +3,8 @@ class EnergyEntity {
 
   final DateTime timestamp;
   final int value;
+
+  factory EnergyEntity.init() {
+    return EnergyEntity(timestamp: DateTime.now(), value: 0);
+  }
 }
