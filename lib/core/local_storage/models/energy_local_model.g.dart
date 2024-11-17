@@ -17,22 +17,25 @@ class EnergyLocalModelAdapter extends TypeAdapter<EnergyLocalModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return EnergyLocalModel(
-      id: fields[0] as int,
+      id: fields[0] as String,
       timestamp: fields[1] as DateTime,
       value: fields[2] as int,
+      type: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, EnergyLocalModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.timestamp)
       ..writeByte(2)
-      ..write(obj.value);
+      ..write(obj.value)
+      ..writeByte(3)
+      ..write(obj.type);
   }
 
   @override

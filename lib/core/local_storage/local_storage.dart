@@ -16,10 +16,10 @@ class LocalStorageImpl implements LocalStorage {
 
   @override
   clear() async {
-    final se = await getEnergy.getAll();
-    for (var element in se) {
-      getEnergy.delete(element);
-    }
+    // final se = await getEnergy.getDataFiltered();
+    // for (var element in se) {
+    //   getEnergy.delete(element);
+    // }
   }
 
   @override

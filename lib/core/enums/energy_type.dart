@@ -6,7 +6,8 @@ import '../../features/energy/presentation/bloc/energy_state.dart';
 enum EnergyType {
   solar,
   house,
-  battery;
+  battery,
+  unknown;
 
   String get getEnergyString {
     switch (this) {

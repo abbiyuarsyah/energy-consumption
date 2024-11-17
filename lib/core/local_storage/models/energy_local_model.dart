@@ -8,12 +8,13 @@ class EnergyLocalModel {
     required this.id,
     required this.timestamp,
     required this.value,
+    required this.type,
   });
 
   static const String boxName = 'EnergyLocalModel';
 
   @HiveField(0)
-  final int id;
+  final String id;
 
   @HiveField(1)
   final DateTime timestamp;
@@ -21,11 +22,15 @@ class EnergyLocalModel {
   @HiveField(2)
   final int value;
 
+  @HiveField(3)
+  final String type;
+
   factory EnergyLocalModel.empty() {
     return EnergyLocalModel(
-      id: 0,
+      id: '',
       timestamp: DateTime.now(),
       value: 0,
+      type: '',
     );
   }
 }

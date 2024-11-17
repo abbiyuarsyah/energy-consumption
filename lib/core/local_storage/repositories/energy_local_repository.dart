@@ -1,9 +1,11 @@
 import 'package:energy_consumption/core/local_storage/models/energy_local_model.dart';
 import 'package:hive/hive.dart';
 
+import '../../../features/energy/data/models/energy_request.dart';
 import 'repository.dart';
 
-class EnergyLocalRepository extends Repository<EnergyLocalModel> {
+class EnergyLocalRepository
+    extends Repository<EnergyLocalModel, EnergyRequest> {
   EnergyLocalRepository._({required hiveInterface})
       : _hiveInterface = hiveInterface;
 
@@ -40,8 +42,15 @@ class EnergyLocalRepository extends Repository<EnergyLocalModel> {
   }
 
   @override
-  Future<List<EnergyLocalModel>> getAll() async {
-    final values = _box.values.toList().cast<EnergyLocalModel>();
+  Future<List<EnergyLocalModel>> getDataFiltered(EnergyRequest request) async {
+    final values = _box.values
+        .cast<EnergyLocalModel>()
+        .where(
+          (energy) =>
+              energy.timestamp == DateTime.parse(request.date) &&
+              energy.type == request.type,
+        )
+        .toList();
     return values.isEmpty
         ? Future.value([EnergyLocalModel.empty()])
         : Future.value(values);

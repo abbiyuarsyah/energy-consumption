@@ -1,4 +1,4 @@
-import 'package:energy_consumption/features/energy/data/datasources/energy_datasource.dart';
+import 'package:energy_consumption/features/energy/data/datasources/energy_remote_datasource.dart';
 import 'package:energy_consumption/features/energy/data/repositories/energy_repository_impl.dart';
 import 'package:energy_consumption/features/energy/domain/repositories/enery_repository.dart';
 import 'package:energy_consumption/features/energy/domain/use_case/get_energy.dart';
@@ -18,7 +18,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => const HttpClientHelper());
 
   /// Datasource
-  sl.registerLazySingleton<EnergyDatasource>(
+  sl.registerLazySingleton<EnergyRemoteDatasource>(
     () => EnergyDatasourceImpl(httpClient: sl()),
   );
 
