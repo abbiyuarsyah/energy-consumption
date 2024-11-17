@@ -80,7 +80,14 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     SelectEnergyTypeEvent event,
     Emitter<EnergyState> emit,
   ) async {
-    emit(state.copyWith(selectedType: event.type));
+    var list = _selectedUnit(event.type);
+
+    emit(
+      state.copyWith(
+        selectedType: event.type,
+        selectedEnergyEntity: list.last,
+      ),
+    );
   }
 
   Future<void> _onSwitchUnitEvent(
@@ -95,9 +102,18 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     Emitter<EnergyState> emit,
   ) async {
     final selectedType = state.selectedType;
-    var list = [];
+    var list = _selectedUnit(selectedType);
+    if (list.isEmpty) {
+      return;
+    }
 
-    switch (selectedType) {
+    emit(state.copyWith(selectedEnergyEntity: list[event.selectedIndex]));
+  }
+
+  List<EnergyEntity> _selectedUnit(EnergyType type) {
+    List<EnergyEntity> list = [];
+
+    switch (type) {
       case EnergyType.solar:
         list = state.solar;
         break;
@@ -110,10 +126,6 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
       default:
     }
 
-    if (list.isEmpty) {
-      return;
-    }
-
-    emit(state.copyWith(selectedEnergyEntity: list[event.selectedIndex]));
+    return list;
   }
 }
