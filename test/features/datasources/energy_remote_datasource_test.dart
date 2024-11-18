@@ -15,44 +15,42 @@ void main() {
   late EnergyDatasourceImpl dataSource;
   late EnergyRequest energyRequest;
 
-  group("test get energy datasource", () {
-    setUp(() {
-      clientHelper = MockHttpClientHelper();
-      dataSource = EnergyDatasourceImpl(httpClient: clientHelper);
-      energyRequest = const EnergyRequest(
-        date: "2024-11-17",
-        type: "solar",
-      );
-    });
+  setUp(() {
+    clientHelper = MockHttpClientHelper();
+    dataSource = EnergyDatasourceImpl(httpClient: clientHelper);
+    energyRequest = const EnergyRequest(
+      date: "2024-11-17",
+      type: "solar",
+    );
+  });
 
-    test("return the model when calling the datasource", () async {
-      final energyList = [
-        EnergyModel(DateTime.now(), 500),
-        EnergyModel(DateTime.now().subtract(const Duration(minutes: 15)), 1000)
-      ];
+  test("return the model when calling the datasource", () async {
+    final energyList = [
+      EnergyModel(DateTime.now(), 500),
+      EnergyModel(DateTime.now().subtract(const Duration(minutes: 15)), 1000)
+    ];
 
-      when(
-        dataSource.getEnergy(energyRequest),
-      ).thenAnswer(
-        (_) async => Future.value(Right(energyList)),
-      );
+    when(
+      dataSource.getEnergy(energyRequest),
+    ).thenAnswer(
+      (_) async => Future.value(Right(energyList)),
+    );
 
-      final result = await dataSource.getEnergy(energyRequest);
+    final result = await dataSource.getEnergy(energyRequest);
 
-      result.fold(
-        (l) => null,
-        (r) => expect(r, energyList),
-      );
-    });
+    result.fold(
+      (l) => null,
+      (r) => expect(r, energyList),
+    );
+  });
 
-    test("return unexpected failure when calling the datasource", () async {
-      when(
-        dataSource.getEnergy(energyRequest),
-      ).thenAnswer((_) async => Future.value(Left(UnexpectedFailure())));
+  test("return unexpected failure when calling the datasource", () async {
+    when(
+      dataSource.getEnergy(energyRequest),
+    ).thenAnswer((_) async => Future.value(Left(UnexpectedFailure())));
 
-      final result = await dataSource.getEnergy(energyRequest);
+    final result = await dataSource.getEnergy(energyRequest);
 
-      result.fold((l) => expect(l, UnexpectedFailure()), (r) => null);
-    });
+    result.fold((l) => expect(l, UnexpectedFailure()), (r) => null);
   });
 }

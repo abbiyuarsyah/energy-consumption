@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http_client;
 
 import '../enums/http_method.dart';
 
-const baseUrl = 'localost:3000';
+const baseUrl = 'localhost:3000';
 
 class HttpClientHelper {
   const HttpClientHelper();

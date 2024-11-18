@@ -21,7 +21,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   @override
   void initState() {
     super.initState();
-    final selectedDate = sl<EnergyBloc>().state.selectedDate;
+    final selectedDate = DateTime.now();
     _dateController.text = selectedDate.getStringUIDate;
   }
 

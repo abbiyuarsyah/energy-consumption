@@ -3,18 +3,25 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i7;
 
 import 'package:dartz/dartz.dart' as _i3;
-import 'package:energy_consumption/core/utils/execptions.dart' as _i6;
+import 'package:energy_consumption/core/utils/execptions.dart' as _i8;
 import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart'
-    as _i7;
+    as _i9;
 import 'package:energy_consumption/features/energy/domain/repositories/enery_repository.dart'
     as _i2;
 import 'package:energy_consumption/features/energy/domain/use_case/delete_cache.dart'
-    as _i8;
+    as _i5;
 import 'package:energy_consumption/features/energy/domain/use_case/get_energy.dart'
     as _i4;
+import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart'
+    as _i10;
+import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart'
+    as _i11;
+import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart'
+    as _i6;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i12;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -51,6 +58,36 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
         );
 }
 
+class _FakeGetEnergy_2 extends _i1.SmartFake implements _i4.GetEnergy {
+  _FakeGetEnergy_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeDeleteCache_3 extends _i1.SmartFake implements _i5.DeleteCache {
+  _FakeDeleteCache_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeEnergyState_4 extends _i1.SmartFake implements _i6.EnergyState {
+  _FakeEnergyState_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [GetEnergy].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -69,7 +106,7 @@ class MockGetEnergy extends _i1.Mock implements _i4.GetEnergy {
       ) as _i2.EnergyRepository);
 
   @override
-  _i5.Future<_i3.Either<_i6.Failure, List<_i7.EnergyEntity>>> call(
+  _i7.Future<_i3.Either<_i8.Failure, List<_i9.EnergyEntity>>> call(
           _i4.GetEnergyParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -77,21 +114,21 @@ class MockGetEnergy extends _i1.Mock implements _i4.GetEnergy {
           [params],
         ),
         returnValue:
-            _i5.Future<_i3.Either<_i6.Failure, List<_i7.EnergyEntity>>>.value(
-                _FakeEither_1<_i6.Failure, List<_i7.EnergyEntity>>(
+            _i7.Future<_i3.Either<_i8.Failure, List<_i9.EnergyEntity>>>.value(
+                _FakeEither_1<_i8.Failure, List<_i9.EnergyEntity>>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i7.EnergyEntity>>>);
+      ) as _i7.Future<_i3.Either<_i8.Failure, List<_i9.EnergyEntity>>>);
 }
 
 /// A class which mocks [DeleteCache].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDeleteCache extends _i1.Mock implements _i8.DeleteCache {
+class MockDeleteCache extends _i1.Mock implements _i5.DeleteCache {
   MockDeleteCache() {
     _i1.throwOnMissingStub(this);
   }
@@ -106,19 +143,170 @@ class MockDeleteCache extends _i1.Mock implements _i8.DeleteCache {
       ) as _i2.EnergyRepository);
 
   @override
-  _i5.Future<_i3.Either<_i6.Failure, void>> call(Object? params) =>
+  _i7.Future<_i3.Either<_i8.Failure, void>> call(Object? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, void>>.value(
-            _FakeEither_1<_i6.Failure, void>(
+        returnValue: _i7.Future<_i3.Either<_i8.Failure, void>>.value(
+            _FakeEither_1<_i8.Failure, void>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, void>>);
+      ) as _i7.Future<_i3.Either<_i8.Failure, void>>);
+}
+
+/// A class which mocks [EnergyBloc].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockEnergyBloc extends _i1.Mock implements _i10.EnergyBloc {
+  MockEnergyBloc() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.GetEnergy get getEnergy => (super.noSuchMethod(
+        Invocation.getter(#getEnergy),
+        returnValue: _FakeGetEnergy_2(
+          this,
+          Invocation.getter(#getEnergy),
+        ),
+      ) as _i4.GetEnergy);
+
+  @override
+  _i5.DeleteCache get deleteCache => (super.noSuchMethod(
+        Invocation.getter(#deleteCache),
+        returnValue: _FakeDeleteCache_3(
+          this,
+          Invocation.getter(#deleteCache),
+        ),
+      ) as _i5.DeleteCache);
+
+  @override
+  _i6.EnergyState get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _FakeEnergyState_4(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i6.EnergyState);
+
+  @override
+  _i7.Stream<_i6.EnergyState> get stream => (super.noSuchMethod(
+        Invocation.getter(#stream),
+        returnValue: _i7.Stream<_i6.EnergyState>.empty(),
+      ) as _i7.Stream<_i6.EnergyState>);
+
+  @override
+  bool get isClosed => (super.noSuchMethod(
+        Invocation.getter(#isClosed),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  void add(_i11.EnergyEvent? event) => super.noSuchMethod(
+        Invocation.method(
+          #add,
+          [event],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void onEvent(_i11.EnergyEvent? event) => super.noSuchMethod(
+        Invocation.method(
+          #onEvent,
+          [event],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void emit(_i6.EnergyState? state) => super.noSuchMethod(
+        Invocation.method(
+          #emit,
+          [state],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void on<E extends _i11.EnergyEvent>(
+    _i12.EventHandler<E, _i6.EnergyState>? handler, {
+    _i12.EventTransformer<E>? transformer,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #on,
+          [handler],
+          {#transformer: transformer},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void onTransition(
+          _i12.Transition<_i11.EnergyEvent, _i6.EnergyState>? transition) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #onTransition,
+          [transition],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i7.Future<void> close() => (super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  void onChange(_i12.Change<_i6.EnergyState>? change) => super.noSuchMethod(
+        Invocation.method(
+          #onChange,
+          [change],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addError(
+    Object? error, [
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #addError,
+          [
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void onError(
+    Object? error,
+    StackTrace? stackTrace,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #onError,
+          [
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
