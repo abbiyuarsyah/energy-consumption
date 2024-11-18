@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/dimens.dart';
+import '../constants/dimens.dart';
 
 class CardContainer extends StatelessWidget {
   const CardContainer({

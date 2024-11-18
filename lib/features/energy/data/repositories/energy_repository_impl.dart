@@ -27,7 +27,6 @@ class EnergyRepositoryImpl implements EnergyRepository {
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        List<EnergyModel> list = [];
         final request = EnergyRequest(date: date, type: type.name);
 
         final localData = await localDatasoure.getEnergy(request);
@@ -36,14 +35,12 @@ class EnergyRepositoryImpl implements EnergyRepository {
         }
 
         final result = await datasource.getEnergy(request);
-        result.fold((l) {
+        return result.fold((l) {
           return Left(l);
         }, (r) {
           localDatasoure.addEnergy(r, request.type);
-          list = r;
+          return Right(r);
         });
-
-        return Right(list);
       } catch (_) {
         return Left(UnexpectedFailure());
       }

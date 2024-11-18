@@ -4,9 +4,9 @@ import 'package:energy_consumption/features/energy/presentation/bloc/energy_stat
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/dimens.dart';
-import '../../../../core/service_locator/service_locator.dart';
-import '../bloc/energy_bloc.dart';
+import '../constants/dimens.dart';
+import '../service_locator/service_locator.dart';
+import '../../features/energy/presentation/bloc/energy_bloc.dart';
 
 class DatePickerWidget extends StatefulWidget {
   const DatePickerWidget({super.key});

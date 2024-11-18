@@ -12,5 +12,18 @@
     "clear_cache": "Clear Cache",
     "you_energy_consumption": "Your Energy Consumption",
     "no_data_found": "Data could not be found",
-    "something_went_wrong": "Something went wrong"
+    "something_went_wrong": "Something went wrong",
+    "bad_gateway_error": "Bad Gateway: The server received an invalid response from the upstream server",
+    "unauthorized_error": "Unauthorized: Access is denied due to invalid credentials",
+    "forbidden_error": "Forbidden: You do not have permission to access this resource",
+    "not_found_error": "Not Found: The requested resource could not be found",
+    "internal_server_error": "Internal Server Error: An unexpected error occurred on the server",
+    "bad_request_error": "Bad Request: The server could not understand the request",
+    "service_unavailable_error": "Service Unavailable: The server is currently unavailable",
+    "gateway_timeout_error": "Gateway Timeout: The server did not receive a timely response",
+    "client_error": "Client error, please try again",
+    "server_error": "Server error, please try again",
+    "unexpected_error": "Unexpected error, please try again",
+    "delete_cache_error": "Something is wrong of deleting local data",
+    "network_error": "Something is wrong with the connection"
 }

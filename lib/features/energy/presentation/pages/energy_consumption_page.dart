@@ -1,15 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:energy_consumption/core/enums/status.dart';
+import 'package:energy_consumption/core/extensions/date_formatter.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart';
-import 'package:energy_consumption/features/energy/presentation/widgets/card_container.dart';
+import 'package:energy_consumption/core/shared_widget/card_container.dart';
+import 'package:energy_consumption/core/shared_widget/error_screen_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/dimens.dart';
 import '../../../../core/service_locator/service_locator.dart';
 import '../bloc/energy_bloc.dart';
-import '../widgets/date_picker_widget.dart';
+import '../../../../core/shared_widget/date_picker_widget.dart';
 import '../widgets/energy_detail_widget.dart';
 import '../widgets/energy_graph_widget.dart';
 import '../widgets/energy_tab_widget.dart';
@@ -120,6 +122,15 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
                   ),
                 ),
               ],
+            );
+          } else if (state.stateStatus == StateStatus.failed) {
+            return ErrorScreenWidget(
+              message: state.errorMessage,
+              onPressed: () {
+                sl<EnergyBloc>().add(GetEnergyEvent(
+                  date: DateTime.now().getStringDate,
+                ));
+              },
             );
           }
 

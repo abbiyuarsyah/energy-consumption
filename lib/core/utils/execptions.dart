@@ -1,104 +1,96 @@
+import 'package:easy_localization/easy_localization.dart';
+
 abstract class Failure {
   late String message;
 }
 
-class ServerFailure extends Failure {
-  ServerFailure();
-}
-
-class NetworkFailure extends Failure {
+class NetworkFailure implements Failure {
   NetworkFailure();
-}
 
-class GetEnergyLocalFailure extends Failure {
-  GetEnergyLocalFailure();
+  @override
+  String message = tr('network_error');
 }
 
 class BadRequestFailure implements Failure {
   BadRequestFailure();
 
   @override
-  String message =
-      'Bad Gateway: The server received an invalid response from the upstream server';
+  String message = tr('bad_request_error');
 }
 
 class UnauthorizedFailure implements Failure {
   UnauthorizedFailure();
 
   @override
-  String message = 'Unauthorized: Access is denied due to invalid credentials';
+  String message = tr('unauthorized_error');
 }
 
 class ForbieddenFailure implements Failure {
   ForbieddenFailure();
 
   @override
-  String message = 'Unauthorized: Access is denied due to invalid credentials';
+  String message = tr('forbidden_error');
 }
 
 class NotFoundFailure implements Failure {
   NotFoundFailure();
 
   @override
-  String message = 'Not Found: The requested resource could not be found';
+  String message = tr('not_found_error');
 }
 
 class InternvalServerErrorFailure implements Failure {
   InternvalServerErrorFailure();
 
   @override
-  String message =
-      'Internal Server Error: An unexpected error occurred on the server.';
+  String message = tr('internal_server_error');
 }
 
 class BadGatewayFailure implements Failure {
   BadGatewayFailure();
 
   @override
-  String message =
-      'Bad Gateway: The server received an invalid response from the upstream server';
+  String message = tr('bad_gateway_error');
 }
 
 class ServiceUnavailableFailure implements Failure {
   ServiceUnavailableFailure();
 
   @override
-  String message = 'Service Unavailable: The server is currently unavailable';
+  String message = tr('service_unavailable_error');
 }
 
 class GatewayTimeoutFailure implements Failure {
   GatewayTimeoutFailure();
 
   @override
-  String message =
-      'Gateway Timeout: The server did not receive a timely response';
+  String message = tr('gateway_timeout_error');
 }
 
 class ClientErrorFailure implements Failure {
   ClientErrorFailure();
 
   @override
-  String message = 'Client Error: An error occurred on the client-side';
+  String message = tr('client_error');
 }
 
 class ServerErrorFailure implements Failure {
   ServerErrorFailure();
 
   @override
-  String message = 'Server Error: An error occurred on the server-side';
+  String message = tr('server_error');
 }
 
 class UnexpectedFailure implements Failure {
   UnexpectedFailure();
 
   @override
-  String message = 'Unexpected Error: An unknown status code  was encountered';
+  String message = tr('unexpected_error');
 }
 
 class DeleteCacheFailure implements Failure {
   DeleteCacheFailure();
 
   @override
-  String message =
-      'Unexpected Error: Something is wrong of deleting local data';
+  String message = tr('delete_cache_error');
 }
