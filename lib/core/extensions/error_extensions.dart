@@ -8,7 +8,7 @@ extension ErrorExtensions on int {
       case 401:
         return UnauthorizedFailure();
       case 403:
-        return ForbieddenFailure();
+        return ForbiddenFailure();
       case 404:
         return NotFoundFailure();
       case 500:

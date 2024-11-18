@@ -1,96 +1,63 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class Failure {
-  late String message;
-}
+abstract class Failure extends Equatable {
+  final String message;
 
-class NetworkFailure implements Failure {
-  NetworkFailure();
-
-  @override
-  String message = tr('network_error');
-}
-
-class BadRequestFailure implements Failure {
-  BadRequestFailure();
+  const Failure(this.message);
 
   @override
-  String message = tr('bad_request_error');
+  List<Object?> get props => [message];
 }
 
-class UnauthorizedFailure implements Failure {
-  UnauthorizedFailure();
-
-  @override
-  String message = tr('unauthorized_error');
+class NetworkFailure extends Failure {
+  NetworkFailure() : super(tr('network_error'));
 }
 
-class ForbieddenFailure implements Failure {
-  ForbieddenFailure();
-
-  @override
-  String message = tr('forbidden_error');
+class BadRequestFailure extends Failure {
+  BadRequestFailure() : super(tr('bad_request_error'));
 }
 
-class NotFoundFailure implements Failure {
-  NotFoundFailure();
-
-  @override
-  String message = tr('not_found_error');
+class UnauthorizedFailure extends Failure {
+  UnauthorizedFailure() : super(tr('unauthorized_error'));
 }
 
-class InternvalServerErrorFailure implements Failure {
-  InternvalServerErrorFailure();
-
-  @override
-  String message = tr('internal_server_error');
+class ForbiddenFailure extends Failure {
+  ForbiddenFailure() : super(tr('forbidden_error'));
 }
 
-class BadGatewayFailure implements Failure {
-  BadGatewayFailure();
-
-  @override
-  String message = tr('bad_gateway_error');
+class NotFoundFailure extends Failure {
+  NotFoundFailure() : super(tr('not_found_error'));
 }
 
-class ServiceUnavailableFailure implements Failure {
-  ServiceUnavailableFailure();
-
-  @override
-  String message = tr('service_unavailable_error');
+class BadGatewayFailure extends Failure {
+  BadGatewayFailure() : super(tr('bad_gateway_error'));
 }
 
-class GatewayTimeoutFailure implements Failure {
-  GatewayTimeoutFailure();
-
-  @override
-  String message = tr('gateway_timeout_error');
+class InternvalServerErrorFailure extends Failure {
+  InternvalServerErrorFailure() : super(tr('internal_server_error'));
 }
 
-class ClientErrorFailure implements Failure {
-  ClientErrorFailure();
-
-  @override
-  String message = tr('client_error');
+class ServiceUnavailableFailure extends Failure {
+  ServiceUnavailableFailure() : super(tr('service_unavailable_error'));
 }
 
-class ServerErrorFailure implements Failure {
-  ServerErrorFailure();
-
-  @override
-  String message = tr('server_error');
+class GatewayTimeoutFailure extends Failure {
+  GatewayTimeoutFailure() : super(tr('gateway_timeout_error'));
 }
 
-class UnexpectedFailure implements Failure {
-  UnexpectedFailure();
-
-  @override
-  String message = tr('unexpected_error');
+class ClientErrorFailure extends Failure {
+  ClientErrorFailure() : super(tr('client_error'));
 }
 
-class DeleteCacheFailure implements Failure {
-  DeleteCacheFailure();
+class ServerErrorFailure extends Failure {
+  ServerErrorFailure() : super(tr('server_error'));
+}
 
-  @override
-  String message = tr('delete_cache_error');
+class UnexpectedFailure extends Failure {
+  UnexpectedFailure() : super(tr('unexpected_error'));
+}
+
+class DeleteCacheFailure extends Failure {
+  DeleteCacheFailure() : super(tr('delete_cache_error'));
 }
