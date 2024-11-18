@@ -19,7 +19,7 @@ Follow these steps to set up and contribute to the project:
    
    ```bash
    flutter pub get
-3. **Install Dependencies**
+3. **Run the app**
 
    ```bash
    flutter run
