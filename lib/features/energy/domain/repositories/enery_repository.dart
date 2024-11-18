@@ -9,4 +9,6 @@ abstract class EnergyRepository {
     required String date,
     required EnergyType type,
   });
+
+  void deletCachce();
 }

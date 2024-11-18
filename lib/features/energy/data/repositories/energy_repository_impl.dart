@@ -63,4 +63,9 @@ class EnergyRepositoryImpl implements EnergyRepository {
       }
     }
   }
+
+  @override
+  void deletCachce() async {
+    localDatasoure.deleteEnergy();
+  }
 }

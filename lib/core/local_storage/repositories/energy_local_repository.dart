@@ -36,8 +36,8 @@ class EnergyLocalRepository
   }
 
   @override
-  Future<void> delete(EnergyLocalModel entity) async {
-    await _box.delete(entity.id);
+  Future<void> delete() async {
+    await _box.clear();
     return;
   }
 

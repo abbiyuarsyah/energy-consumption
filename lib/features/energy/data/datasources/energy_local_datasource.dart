@@ -11,6 +11,8 @@ abstract class EnergyLocalDatasource {
     List<EnergyModel> energyModelList,
     String type,
   );
+
+  void deleteEnergy();
 }
 
 class EnergyLocalDatasourceImpl implements EnergyLocalDatasource {
@@ -62,5 +64,11 @@ class EnergyLocalDatasourceImpl implements EnergyLocalDatasource {
 
   EnergyModel mapToRemote(EnergyLocalModel energyLocal) {
     return EnergyModel(energyLocal.timestamp, energyLocal.value);
+  }
+
+  @override
+  void deleteEnergy() async {
+    await localStorage.open();
+    await localStorage.getEnergy.delete();
   }
 }

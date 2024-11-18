@@ -33,3 +33,7 @@ class SelectDateEvent extends EnergyEvent {
 
   final DateTime selectedDate;
 }
+
+class ClearCacheEvent extends EnergyEvent {
+  const ClearCacheEvent();
+}

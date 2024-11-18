@@ -31,7 +31,7 @@ class EnergyGraph extends StatelessWidget {
                   right: Dimens.large,
                 ),
                 child: SizedBox(
-                  height: 300,
+                  height: 240,
                   child: LineChart(
                     LineChartData(
                       lineBarsData: [

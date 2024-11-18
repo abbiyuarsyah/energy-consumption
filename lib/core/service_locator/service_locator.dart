@@ -2,6 +2,7 @@ import 'package:energy_consumption/core/local_storage/repositories/energy_local_
 import 'package:energy_consumption/features/energy/data/datasources/energy_remote_datasource.dart';
 import 'package:energy_consumption/features/energy/data/repositories/energy_repository_impl.dart';
 import 'package:energy_consumption/features/energy/domain/repositories/enery_repository.dart';
+import 'package:energy_consumption/features/energy/domain/use_case/delete_cache.dart';
 import 'package:energy_consumption/features/energy/domain/use_case/get_energy.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -50,9 +51,12 @@ Future<void> init() async {
 
   /// User case
   sl.registerLazySingleton(() => GetEnergy(repository: sl()));
+  sl.registerLazySingleton(() => DeleteCache(repository: sl()));
 
   /// Bloc
-  sl.registerLazySingleton<EnergyBloc>(() => EnergyBloc(getEnergy: sl()));
+  sl.registerLazySingleton<EnergyBloc>(
+    () => EnergyBloc(getEnergy: sl(), deleteCache: sl()),
+  );
 
   sl.registerSingleton<LocalStorage>(
     LocalStorageImpl(energyLocalRepository: await sl.getAsync()),

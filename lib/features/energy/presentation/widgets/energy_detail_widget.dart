@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/dimens.dart';
+import '../../../../core/service_locator/service_locator.dart';
+import '../bloc/energy_event.dart';
 
 class EnergyDetailWidget extends StatelessWidget {
   const EnergyDetailWidget({super.key});
@@ -19,61 +21,87 @@ class EnergyDetailWidget extends StatelessWidget {
                 .toStringAsFixed(2);
         final wattValue = '${state.selectedEnergyEntity.value}';
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tr('time'),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: Dimens.small),
+                      Text(
+                        DateFormat.Hm()
+                            .format(state.selectedEnergyEntity.timestamp),
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const VerticalDivider(color: Colors.grey, thickness: 1),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        state.isKilowatts ? tr('kilowatts') : tr('watts'),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: Dimens.small),
+                      Text(
+                        state.isKilowatts ? kilowattValue : wattValue,
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const Expanded(child: SizedBox()),
             SizedBox(
-              width: MediaQuery.of(context).size.width / 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    tr('time'),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
+              width: MediaQuery.of(context).size.width,
+              height: 40,
+              child: TextButton(
+                onPressed: () {
+                  sl<EnergyBloc>().add(const ClearCacheEvent());
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(Dimens.extraLarge),
                   ),
-                  const SizedBox(height: Dimens.small),
-                  Text(
-                    DateFormat.Hm()
-                        .format(state.selectedEnergyEntity.timestamp),
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
+                ),
+                child: Text(
+                  tr('clear_cache'),
+                  style: const TextStyle(fontSize: 16.0),
+                ),
               ),
             ),
-            const VerticalDivider(color: Colors.grey, thickness: 1),
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    state.isKilowatts ? tr('kilowatts') : tr('watts'),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: Dimens.small),
-                  Text(
-                    state.isKilowatts ? kilowattValue : wattValue,
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const SizedBox(height: Dimens.extraLarge)
           ],
         );
       },

@@ -1,6 +1,7 @@
 import 'package:energy_consumption/core/enums/energy_type.dart';
 import 'package:energy_consumption/core/enums/state_status.dart';
 import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart';
+import 'package:energy_consumption/features/energy/domain/use_case/delete_cache.dart';
 import 'package:energy_consumption/features/energy/domain/use_case/get_energy.dart';
 
 import 'energy_event.dart';
@@ -8,7 +9,7 @@ import 'energy_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
-  EnergyBloc({required this.getEnergy})
+  EnergyBloc({required this.getEnergy, required this.deleteCache})
       : super(EnergyState(
           energy: const [],
           selectedType: EnergyType.solar,
@@ -22,9 +23,11 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     on<SwitchUnitEvent>(_onSwitchUnitEvent);
     on<SelectValueEvent>(_onSelectValueEvent);
     on<SelectDateEvent>(_onSelectDateEvent);
+    on<ClearCacheEvent>(_onClearCacheEvent);
   }
 
   final GetEnergy getEnergy;
+  final DeleteCache deleteCache;
 
   Future<void> _onGetEnergyEvent(
     GetEnergyEvent event,
@@ -87,6 +90,13 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     Emitter<EnergyState> emit,
   ) async {
     emit(state.copyWith(isKilowatts: event.isKiloWatts));
+  }
+
+  Future<void> _onClearCacheEvent(
+    ClearCacheEvent event,
+    Emitter<EnergyState> emit,
+  ) async {
+    await deleteCache(null);
   }
 
   Future<void> _onSelectDateEvent(

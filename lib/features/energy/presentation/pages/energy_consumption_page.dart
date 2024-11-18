@@ -118,7 +118,7 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
                     isTopRounded: true,
                     child: EnergyDetailWidget(),
                   ),
-                )
+                ),
               ],
             );
           }
