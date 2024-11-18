@@ -28,9 +28,9 @@ class EnergyRepositoryImpl implements EnergyRepository {
     if (await networkInfo.isConnected) {
       try {
         final request = EnergyRequest(date: date, type: type.name);
-
         final localData = await localDatasoure.getEnergy(request);
-        if (localData.length > 1) {
+
+        if (localData.isNotEmpty) {
           return Right(localData);
         }
 

@@ -52,14 +52,10 @@ class EnergyLocalRepository
     }).toList()
       ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
-    return filteredValues.isEmpty ? [EnergyLocalModel.empty()] : filteredValues;
+    return filteredValues.isEmpty ? [] : filteredValues;
   }
 
   Future<void> open() async {
     _box = await _hiveInterface.openBox(EnergyLocalModel.boxName);
-  }
-
-  Future<void> close() async {
-    await _box.close();
   }
 }

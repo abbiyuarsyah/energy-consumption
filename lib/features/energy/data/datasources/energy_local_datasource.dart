@@ -30,7 +30,7 @@ class EnergyLocalDatasourceImpl implements EnergyLocalDatasource {
 
       for (int i = 0; i < energyModelList.length; i++) {
         final result = await mapToLocal(energyModelList[i], type);
-        localStorage.getEnergy.add(result);
+        localStorage.getEnergyRpository.add(result);
       }
     } catch (e) {
       throw UnimplementedError();
@@ -42,8 +42,8 @@ class EnergyLocalDatasourceImpl implements EnergyLocalDatasource {
     try {
       await localStorage.open();
 
-      final result = await localStorage.getEnergy.getDataFiltered(request)
-          as List<EnergyLocalModel>;
+      final result = await localStorage.getEnergyRpository
+          .getDataFiltered(request) as List<EnergyLocalModel>;
       return result.map((e) => mapToRemote(e)).toList();
     } catch (e) {
       throw UnimplementedError();
@@ -70,7 +70,7 @@ class EnergyLocalDatasourceImpl implements EnergyLocalDatasource {
   void deleteEnergy() async {
     try {
       await localStorage.open();
-      await localStorage.getEnergy.delete();
+      await localStorage.getEnergyRpository.delete();
     } catch (e) {
       throw UnimplementedError();
     }

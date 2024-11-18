@@ -3,10 +3,8 @@ import 'package:energy_consumption/core/local_storage/repositories/energy_local_
 import 'repositories/repository.dart';
 
 abstract class LocalStorage {
-  Repository get getEnergy;
-  clear();
+  Repository get getEnergyRpository;
   open();
-  close();
 }
 
 class LocalStorageImpl implements LocalStorage {
@@ -15,23 +13,10 @@ class LocalStorageImpl implements LocalStorage {
   final EnergyLocalRepository energyLocalRepository;
 
   @override
-  clear() async {
-    // final se = await getEnergy.getDataFiltered();
-    // for (var element in se) {
-    //   getEnergy.delete(element);
-    // }
-  }
-
-  @override
   open() async {
-    await getEnergy.open();
+    await getEnergyRpository.open();
   }
 
   @override
-  close() async {
-    await getEnergy.close();
-  }
-
-  @override
-  EnergyLocalRepository get getEnergy => energyLocalRepository;
+  EnergyLocalRepository get getEnergyRpository => energyLocalRepository;
 }
