@@ -25,5 +25,7 @@
     "server_error": "Server error, please try again",
     "unexpected_error": "Unexpected error, please try again",
     "delete_cache_error": "Something is wrong of deleting local data",
-    "network_error": "Something is wrong with the connection"
+    "network_error": "Something is wrong with the connection",
+    "clear_cache_success": "Cache deleted successfully!",
+    "clear_cache_failed": "Failed to delete cache. Please try again"
 }

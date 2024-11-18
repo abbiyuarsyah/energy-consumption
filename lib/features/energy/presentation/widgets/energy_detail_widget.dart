@@ -20,9 +20,9 @@ class EnergyDetailWidget extends StatelessWidget {
       listenWhen: (previous, next) => previous != next,
       listener: (context, state) {
         if (state.clearCacheStatus == ClearCacheStatus.succeed) {
-          showSuccessMessage(context, false, "Operation was successful!");
+          showSuccessMessage(context, false, tr('clear_cache_success'));
         } else if (state.clearCacheStatus == ClearCacheStatus.failed) {
-          showSuccessMessage(context, true, "Failed");
+          showSuccessMessage(context, true, tr('clear_cache_failed'));
         }
       },
       builder: (context, state) {
