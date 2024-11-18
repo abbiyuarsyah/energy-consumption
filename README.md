@@ -2,6 +2,11 @@
 
 The app is built on the Flutter Framework and utilizes FL Chart as the foundation for implementing graphical charts. To optimize performance, the app leverages Hive for data caching, reducing unnecessary API calls. Additionally, it supports a dark mode for a better user experience.
 
+![Simulator Screenshot - iPhone 14 Pro - 2024-11-18 at 18 12 55](https://github.com/user-attachments/assets/f8ae679f-43ee-4615-bbf0-c0835c26ae70)
+![Simulator Screenshot - iPhone 14 Pro - 2024-11-18 at 17 47 02](https://github.com/user-attachments/assets/c6f5dab6-ce17-4343-b0ed-e7f05c55a3c5)
+
+https://github.com/user-attachments/assets/29d876d4-71d0-4a44-add2-c8e05dfa2729
+
 ## How To Run the App 
 
 Follow these steps to set up and contribute to the project:
