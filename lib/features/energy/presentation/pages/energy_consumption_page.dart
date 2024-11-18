@@ -56,87 +56,102 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
         ),
       ),
       backgroundColor: Colors.grey[200],
-      body: BlocBuilder<EnergyBloc, EnergyState>(
-        buildWhen: (previous, next) => previous.stateStatus != next.stateStatus,
-        builder: (context, state) {
-          if (state.stateStatus == StateStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state.stateStatus == StateStatus.loaded) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CardContainer(
-                  isBottomRounded: true,
-                  child: EnergyTab(),
-                ),
-                const SizedBox(height: Dimens.large),
-                CardContainer(
-                  isTopRounded: true,
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: BlocBuilder<EnergyBloc, EnergyState>(
+            buildWhen: (previous, next) =>
+                previous.stateStatus != next.stateStatus,
+            builder: (context, state) {
+              if (state.stateStatus == StateStatus.loading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state.stateStatus == StateStatus.loaded) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        tr('you_energy_consumption'),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      const CardContainer(
+                        isBottomRounded: true,
+                        child: EnergyTab(),
                       ),
-                      const SizedBox(height: Dimens.extraLarge),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AdvancedSwitch(
-                            controller: _controller,
-                            activeColor: Colors.blue.shade900,
-                            inactiveColor: Colors.blue.shade500,
-                            activeChild: Text(tr('kilowatts')),
-                            inactiveChild: Text(
-                              tr('watts'),
+                      const SizedBox(height: Dimens.large),
+                      CardContainer(
+                        isTopRounded: true,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              tr('you_energy_consumption'),
                               style: const TextStyle(
-                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(Dimens.large),
+                            const SizedBox(height: Dimens.extraLarge),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AdvancedSwitch(
+                                  controller: _controller,
+                                  activeColor: Colors.blue.shade900,
+                                  inactiveColor: Colors.blue.shade500,
+                                  activeChild: Text(tr('kilowatts')),
+                                  inactiveChild: Text(
+                                    tr('watts'),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(Dimens.large),
+                                  ),
+                                  width: 120.0,
+                                  height: 30.0,
+                                  enabled: true,
+                                  disabledOpacity: 0.5,
+                                ),
+                                const DatePickerWidget(),
+                              ],
                             ),
-                            width: 120.0,
-                            height: 30.0,
-                            enabled: true,
-                            disabledOpacity: 0.5,
-                          ),
-                          const DatePickerWidget(),
-                        ],
+                            const SizedBox(height: Dimens.xxLarge),
+                            const EnergyGraph(),
+                            const SizedBox(height: Dimens.large),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: Dimens.xxLarge),
-                      const EnergyGraph(),
                       const SizedBox(height: Dimens.large),
+                      const Flexible(
+                        child: CardContainer(
+                          isTopRounded: true,
+                          child: EnergyDetailWidget(),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                const SizedBox(height: Dimens.large),
-                const Expanded(
-                  child: CardContainer(
-                    isTopRounded: true,
-                    child: EnergyDetailWidget(),
-                  ),
-                ),
-              ],
-            );
-          } else if (state.stateStatus == StateStatus.failed) {
-            return ErrorScreenWidget(
-              message: state.errorMessage,
-              onPressed: () {
-                sl<EnergyBloc>().add(GetEnergyEvent(
-                  date: DateTime.now().getStringDate,
-                ));
-              },
-            );
-          }
+                );
+              } else if (state.stateStatus == StateStatus.failed) {
+                return ErrorScreenWidget(
+                  message: state.errorMessage,
+                  onPressed: () {
+                    sl<EnergyBloc>().add(GetEnergyEvent(
+                      date: DateTime.now().getStringDate,
+                    ));
+                  },
+                );
+              }
 
-          return const SizedBox();
-        },
+              return const SizedBox();
+            },
+          ),
+        ),
       ),
     );
+  }
+
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+    sl<EnergyBloc>().add(GetEnergyEvent(date: DateTime.now().getStringDate));
   }
 }
