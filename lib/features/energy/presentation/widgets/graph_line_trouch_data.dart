@@ -3,6 +3,7 @@ import 'package:energy_consumption/features/energy/presentation/bloc/energy_even
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/dimens.dart';
 import '../../../../core/service_locator/service_locator.dart';
 import '../bloc/energy_bloc.dart';
 
@@ -25,8 +26,8 @@ class GraphLineTouchData extends LineTouchData {
                   FlDotData(
                     show: true,
                     getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
-                      radius: 4,
-                      strokeWidth: 2,
+                      radius: Dimens.small,
+                      strokeWidth: Dimens.extraSmall,
                       strokeColor: Colors.white,
                       color: Colors.lightBlue.shade200,
                     ),

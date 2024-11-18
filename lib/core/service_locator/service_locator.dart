@@ -58,6 +58,7 @@ Future<void> init() async {
     () => EnergyBloc(getEnergy: sl(), deleteCache: sl()),
   );
 
+  /// Local Storage
   sl.registerSingleton<LocalStorage>(
     LocalStorageImpl(energyLocalRepository: await sl.getAsync()),
   );

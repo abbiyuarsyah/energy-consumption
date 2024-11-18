@@ -19,14 +19,16 @@ class App extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+        brightness: Brightness.light,
+        useMaterial3: false,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
         useMaterial3: false,
       ),
       home: BlocProvider(
         create: (BuildContext context) => sl<EnergyBloc>()
-          ..add(
-            GetEnergyEvent(date: DateTime.now().getStringDate),
-          ),
+          ..add(GetEnergyEvent(date: DateTime.now().getStringDate)),
         child: OrientationBuilder(builder: (context, orientation) {
           return const EnergyConsumptionPage();
         }),

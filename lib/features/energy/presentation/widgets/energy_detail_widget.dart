@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:energy_consumption/core/enums/status.dart';
+import 'package:energy_consumption/core/extensions/custom_theme_extension.dart';
 import 'package:energy_consumption/core/extensions/double_formatter.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart';
@@ -53,10 +54,10 @@ class EnergyDetailWidget extends StatelessWidget {
                         Text(
                           DateFormat.Hm()
                               .format(state.selectedEnergyEntity.timestamp),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: context.textColor,
                           ),
                         ),
                       ],
@@ -79,10 +80,10 @@ class EnergyDetailWidget extends StatelessWidget {
                         const SizedBox(height: Dimens.small),
                         Text(
                           state.isKilowatts ? kilowattValue : wattValue,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: context.textColor,
                           ),
                         ),
                       ],

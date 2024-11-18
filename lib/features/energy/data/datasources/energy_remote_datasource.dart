@@ -20,7 +20,8 @@ class EnergyDatasourceImpl implements EnergyRemoteDatasource {
 
   @override
   Future<Either<Failure, List<EnergyModel>>> getEnergy(
-      EnergyRequest request) async {
+    EnergyRequest request,
+  ) async {
     try {
       final result = await httpClient.request(
         endpoint: '/monitoring',
@@ -37,6 +38,8 @@ class EnergyDatasourceImpl implements EnergyRemoteDatasource {
           ),
         );
       } else {
+        /// Map the HTTP Error to Failure Objects
+        /// It's needed to return the error messages
         return Left(result.statusCode.httpErrorToFailure);
       }
     } catch (e) {

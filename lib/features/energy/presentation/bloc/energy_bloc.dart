@@ -41,6 +41,7 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
       emit(state.copyWith(stateStatus: StateStatus.loading));
     }
 
+    /// Call all energy types, since it's needed to preload the data
     for (final type in EnergyType.values) {
       final result = await getEnergy(GetEnergyParams(
         date: event.date,

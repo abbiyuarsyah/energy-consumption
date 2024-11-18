@@ -17,6 +17,7 @@ class GetEnergy extends UseCase<List<EnergyEntity>, GetEnergyParams> {
       date: params.date,
       type: params.type,
     );
+
     return result.fold(
       (l) => Left(l),
       (r) => Right(

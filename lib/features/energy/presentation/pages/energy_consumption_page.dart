@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:energy_consumption/core/enums/status.dart';
+import 'package:energy_consumption/core/extensions/custom_theme_extension.dart';
 import 'package:energy_consumption/core/extensions/date_formatter.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart';
@@ -38,7 +39,7 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.cardColor,
         elevation: 0,
         centerTitle: false,
         title: Column(
@@ -46,8 +47,8 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
             const SizedBox(height: Dimens.medium),
             Text(
               tr('monitoring'),
-              style: const TextStyle(
-                color: Colors.black,
+              style: TextStyle(
+                color: context.textColor,
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
@@ -55,7 +56,7 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
           ],
         ),
       ),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: context.backgroundColor,
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
         child: SingleChildScrollView(
@@ -84,9 +85,10 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
                           children: [
                             Text(
                               tr('you_energy_consumption'),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
+                                color: context.textColor,
                               ),
                             ),
                             const SizedBox(height: Dimens.extraLarge),
@@ -95,8 +97,8 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
                               children: [
                                 AdvancedSwitch(
                                   controller: _controller,
-                                  activeColor: Colors.blue.shade900,
-                                  inactiveColor: Colors.blue.shade500,
+                                  activeColor: context.switchActiveColor!,
+                                  inactiveColor: context.switchInactiveColor!,
                                   activeChild: Text(tr('kilowatts')),
                                   inactiveChild: Text(
                                     tr('watts'),
@@ -153,5 +155,11 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
   Future<void> _handleRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
     sl<EnergyBloc>().add(GetEnergyEvent(date: DateTime.now().getStringDate));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

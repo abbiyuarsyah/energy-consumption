@@ -26,10 +26,13 @@ class EnergyRepositoryImpl implements EnergyRepository {
     required EnergyType type,
   }) async {
     if (await networkInfo.isConnected) {
+      /// Fetch the data when the connection is available
       try {
         final request = EnergyRequest(date: date, type: type.name);
-        final localData = await localDatasoure.getEnergy(request);
 
+        /// Fetch the data from local storage
+        /// and use them if they are available
+        final localData = await localDatasoure.getEnergy(request);
         if (localData.isNotEmpty) {
           return Right(localData);
         }
@@ -46,6 +49,9 @@ class EnergyRepositoryImpl implements EnergyRepository {
       }
     } else {
       try {
+        /// If the connection is not available
+        /// The data from the local storage will be called
+        /// otherwise it will return an error
         final localData = await localDatasoure.getEnergy(
           EnergyRequest(date: date, type: type.name),
         );

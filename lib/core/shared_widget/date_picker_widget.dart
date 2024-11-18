@@ -1,3 +1,4 @@
+import 'package:energy_consumption/core/extensions/custom_theme_extension.dart';
 import 'package:energy_consumption/core/extensions/date_formatter.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart';
@@ -37,15 +38,15 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           return TextField(
             controller: _dateController,
             readOnly: true,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: context.textColor,
               fontSize: 14,
             ),
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(Dimens.large),
-                borderSide: const BorderSide(
-                  color: Colors.grey,
+                borderSide: BorderSide(
+                  color: context.borderColor!,
                   width: Dimens.extraSmall,
                 ),
               ),
@@ -54,10 +55,10 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 vertical: Dimens.small,
                 horizontal: Dimens.medium,
               ),
-              suffixIcon: const Icon(
+              suffixIcon: Icon(
                 Icons.calendar_today,
                 size: Dimens.large,
-                color: Colors.grey,
+                color: context.borderColor!,
               ),
             ),
             onTap: () => _selectDate(

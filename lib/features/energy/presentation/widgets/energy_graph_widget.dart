@@ -1,3 +1,4 @@
+import 'package:energy_consumption/core/extensions/custom_theme_extension.dart';
 import 'package:energy_consumption/core/extensions/double_formatter.dart';
 import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart';
@@ -149,8 +150,9 @@ class _LeftTitles extends StatelessWidget {
         children: [
           Text(
             formatted,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 10,
+              color: context.textColor,
             ),
           ),
           const SizedBox(width: Dimens.extraSmall)
@@ -181,8 +183,9 @@ class _BottomTitles extends StatelessWidget {
       space: 2,
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 10,
+          color: context.textColor,
         ),
       ),
     );

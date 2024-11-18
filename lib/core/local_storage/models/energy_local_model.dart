@@ -24,13 +24,4 @@ class EnergyLocalModel {
 
   @HiveField(3)
   final String type;
-
-  factory EnergyLocalModel.empty() {
-    return EnergyLocalModel(
-      id: '',
-      timestamp: DateTime.now(),
-      value: 0,
-      type: '',
-    );
-  }
 }

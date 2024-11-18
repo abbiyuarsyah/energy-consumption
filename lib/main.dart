@@ -6,7 +6,11 @@ import 'package:energy_consumption/core/service_locator/service_locator.dart'
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  /// Initiate EasyLocalization
   await EasyLocalization.ensureInitialized();
+
+  /// Initiate Service Locator (Get It)
   await sl.init();
 
   runApp(

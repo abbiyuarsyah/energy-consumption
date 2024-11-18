@@ -1,4 +1,5 @@
 import 'package:energy_consumption/core/enums/energy_type.dart';
+import 'package:energy_consumption/core/extensions/custom_theme_extension.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart';
@@ -33,7 +34,7 @@ class EnergyTab extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: state.selectedType.index == index
                       ? Colors.lightBlueAccent
-                      : Colors.white,
+                      : context.tabColor,
                   borderRadius: BorderRadius.circular(Dimens.large),
                   border: Border.all(
                     color: state.selectedType.index == index
@@ -47,7 +48,7 @@ class EnergyTab extends StatelessWidget {
                   style: TextStyle(
                     color: state.selectedType.index == index
                         ? Colors.white
-                        : Colors.black,
+                        : context.textColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
                   ),

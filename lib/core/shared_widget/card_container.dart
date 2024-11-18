@@ -1,3 +1,4 @@
+import 'package:energy_consumption/core/extensions/custom_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/dimens.dart';
@@ -8,13 +9,11 @@ class CardContainer extends StatelessWidget {
     required this.child,
     this.isTopRounded = false,
     this.isBottomRounded = false,
-    this.color = Colors.white,
   });
 
   final Widget child;
   final bool isTopRounded;
   final bool isBottomRounded;
-  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class CardContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(Dimens.extraLarge),
       decoration: BoxDecoration(
-        color: color,
+        color: context.cardColor,
         borderRadius: BorderRadius.only(
           topLeft: isTopRounded
               ? const Radius.circular(Dimens.large)
