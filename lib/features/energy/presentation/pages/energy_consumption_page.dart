@@ -59,16 +59,16 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
       backgroundColor: context.backgroundColor,
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: BlocBuilder<EnergyBloc, EnergyState>(
-            buildWhen: (previous, next) =>
-                previous.stateStatus != next.stateStatus,
-            builder: (context, state) {
-              if (state.stateStatus == StateStatus.loading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state.stateStatus == StateStatus.loaded) {
-                return SizedBox(
+        child: BlocBuilder<EnergyBloc, EnergyState>(
+          buildWhen: (previous, next) =>
+              previous.stateStatus != next.stateStatus,
+          builder: (context, state) {
+            if (state.stateStatus == StateStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state.stateStatus == StateStatus.loaded) {
+              return SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
                   height: MediaQuery.of(context).size.height,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,21 +132,21 @@ class _EnergyConsumptionPageState extends State<EnergyConsumptionPage> {
                       ),
                     ],
                   ),
-                );
-              } else if (state.stateStatus == StateStatus.failed) {
-                return ErrorScreenWidget(
-                  message: state.errorMessage,
-                  onPressed: () {
-                    sl<EnergyBloc>().add(GetEnergyEvent(
-                      date: DateTime.now().getStringDate,
-                    ));
-                  },
-                );
-              }
+                ),
+              );
+            } else if (state.stateStatus == StateStatus.failed) {
+              return ErrorScreenWidget(
+                message: state.errorMessage,
+                onPressed: () {
+                  sl<EnergyBloc>().add(GetEnergyEvent(
+                    date: DateTime.now().getStringDate,
+                  ));
+                },
+              );
+            }
 
-              return const SizedBox();
-            },
-          ),
+            return const SizedBox();
+          },
         ),
       ),
     );
