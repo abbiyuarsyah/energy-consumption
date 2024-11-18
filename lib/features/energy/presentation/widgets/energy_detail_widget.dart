@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:energy_consumption/core/enums/status.dart';
 import 'package:energy_consumption/core/extensions/double_formatter.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_bloc.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart';
@@ -14,7 +15,15 @@ class EnergyDetailWidget extends StatelessWidget {
 
   @override
   Widget build(Object context) {
-    return BlocBuilder<EnergyBloc, EnergyState>(
+    return BlocConsumer<EnergyBloc, EnergyState>(
+      listenWhen: (previous, next) => previous != next,
+      listener: (context, state) {
+        if (state.clearCacheStatus == ClearCacheStatus.succeed) {
+          showSuccessMessage(context, false, "Operation was successful!");
+        } else if (state.clearCacheStatus == ClearCacheStatus.failed) {
+          showSuccessMessage(context, true, "Failed");
+        }
+      },
       builder: (context, state) {
         final kilowattValue =
             (state.selectedEnergyEntity.value.toDouble().wattsToKilowatts)
@@ -106,5 +115,19 @@ class EnergyDetailWidget extends StatelessWidget {
         );
       },
     );
+  }
+
+  void showSuccessMessage(
+    BuildContext context,
+    bool isFailed,
+    String message,
+  ) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: isFailed ? Colors.red : Colors.green,
+      duration: const Duration(seconds: 3),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

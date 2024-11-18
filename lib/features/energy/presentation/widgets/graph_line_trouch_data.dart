@@ -1,3 +1,4 @@
+import 'package:energy_consumption/core/extensions/double_formatter.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import '../../../../core/service_locator/service_locator.dart';
 import '../bloc/energy_bloc.dart';
 
 class GraphLineTouchData extends LineTouchData {
-  GraphLineTouchData()
+  GraphLineTouchData(this.isKilowatt)
       : super(
           touchCallback: (event, result) {
             final index = result?.lineBarSpots?.first.spotIndex;
@@ -38,8 +39,12 @@ class GraphLineTouchData extends LineTouchData {
             tooltipRoundedRadius: 8,
             getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
               return lineBarsSpot.map((lineBarSpot) {
+                final lineSpot = isKilowatt
+                    ? lineBarSpot.y.wattsToKilowatts.toStringAsFixed(2)
+                    : (lineBarSpot.y.toInt()).toString();
+
                 return LineTooltipItem(
-                  lineBarSpot.y.toString(),
+                  lineSpot,
                   const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -49,4 +54,6 @@ class GraphLineTouchData extends LineTouchData {
             },
           ),
         );
+
+  final bool isKilowatt;
 }

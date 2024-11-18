@@ -61,7 +61,7 @@ class EnergyGraph extends StatelessWidget {
                           ),
                         ),
                       ],
-                      lineTouchData: GraphLineTouchData(),
+                      lineTouchData: GraphLineTouchData(state.isKilowatts),
                       maxX: energyList.length.toDouble(),
                       minX: 1,
                       maxY: state.energy[state.selectedType.index].maxY,

@@ -68,7 +68,11 @@ class EnergyLocalDatasourceImpl implements EnergyLocalDatasource {
 
   @override
   void deleteEnergy() async {
-    await localStorage.open();
-    await localStorage.getEnergy.delete();
+    try {
+      await localStorage.open();
+      await localStorage.getEnergy.delete();
+    } catch (e) {
+      throw UnimplementedError();
+    }
   }
 }

@@ -37,7 +37,7 @@ class EnergyRepositoryImpl implements EnergyRepository {
 
         final result = await datasource.getEnergy(request);
         result.fold((l) {
-          return Left(ServerFailure());
+          return Left(l);
         }, (r) {
           localDatasoure.addEnergy(r, request.type);
           list = r;
@@ -45,7 +45,7 @@ class EnergyRepositoryImpl implements EnergyRepository {
 
         return Right(list);
       } catch (_) {
-        return Left(ServerFailure());
+        return Left(UnexpectedFailure());
       }
     } else {
       try {
@@ -59,13 +59,17 @@ class EnergyRepositoryImpl implements EnergyRepository {
           return Left(NetworkFailure());
         }
       } catch (_) {
-        return Left(GetEnergyLocalFailure());
+        return Left(UnexpectedFailure());
       }
     }
   }
 
   @override
   void deletCachce() async {
-    localDatasoure.deleteEnergy();
+    try {
+      localDatasoure.deleteEnergy();
+    } catch (_) {
+      throw UnimplementedError();
+    }
   }
 }

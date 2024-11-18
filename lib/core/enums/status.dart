@@ -4,3 +4,9 @@ enum StateStatus {
   loaded,
   failed,
 }
+
+enum ClearCacheStatus {
+  init,
+  failed,
+  succeed,
+}

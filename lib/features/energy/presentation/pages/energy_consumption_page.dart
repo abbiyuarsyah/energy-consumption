@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:energy_consumption/core/enums/state_status.dart';
+import 'package:energy_consumption/core/enums/status.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_event.dart';
 import 'package:energy_consumption/features/energy/presentation/bloc/energy_state.dart';
 import 'package:energy_consumption/features/energy/presentation/widgets/card_container.dart';

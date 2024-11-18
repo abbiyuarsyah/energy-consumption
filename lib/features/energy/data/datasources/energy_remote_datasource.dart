@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:energy_consumption/core/extensions/error_extensions.dart';
 import 'package:energy_consumption/features/energy/data/models/energy_model.dart';
 import 'package:energy_consumption/features/energy/data/models/energy_request.dart';
 
@@ -9,7 +10,7 @@ import '../../../../core/utils/execptions.dart';
 import '../../../../core/utils/http_helper.dart';
 
 abstract class EnergyRemoteDatasource {
-  Future<Either<Exception, List<EnergyModel>>> getEnergy(EnergyRequest request);
+  Future<Either<Failure, List<EnergyModel>>> getEnergy(EnergyRequest request);
 }
 
 class EnergyDatasourceImpl implements EnergyRemoteDatasource {
@@ -18,7 +19,7 @@ class EnergyDatasourceImpl implements EnergyRemoteDatasource {
   final HttpClientHelper httpClient;
 
   @override
-  Future<Either<Exception, List<EnergyModel>>> getEnergy(
+  Future<Either<Failure, List<EnergyModel>>> getEnergy(
       EnergyRequest request) async {
     try {
       final result = await httpClient.request(
@@ -36,10 +37,10 @@ class EnergyDatasourceImpl implements EnergyRemoteDatasource {
           ),
         );
       } else {
-        return const Left(ServerExecption());
+        return Left(result.statusCode.httpErrorToFailure);
       }
     } catch (e) {
-      return const Left(ServerExecption());
+      return Left(UnexpectedFailure());
     }
   }
 }

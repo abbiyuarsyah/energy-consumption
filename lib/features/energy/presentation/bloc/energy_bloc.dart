@@ -1,5 +1,5 @@
 import 'package:energy_consumption/core/enums/energy_type.dart';
-import 'package:energy_consumption/core/enums/state_status.dart';
+import 'package:energy_consumption/core/enums/status.dart';
 import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart';
 import 'package:energy_consumption/features/energy/domain/use_case/delete_cache.dart';
 import 'package:energy_consumption/features/energy/domain/use_case/get_energy.dart';
@@ -17,6 +17,8 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
           selectedEnergyEntity: EnergyEntity.init(),
           stateStatus: StateStatus.init,
           selectedDate: DateTime.now(),
+          clearCacheStatus: ClearCacheStatus.init,
+          errorMessage: '',
         )) {
     on<GetEnergyEvent>(_onGetEnergyEvent);
     on<SelectEnergyTypeEvent>(_onSelectEnergyTypeEvent);
@@ -46,7 +48,10 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
       ));
 
       result.fold((l) {
-        emit(state.copyWith(stateStatus: StateStatus.failed));
+        emit(state.copyWith(
+          stateStatus: StateStatus.failed,
+          errorMessage: l.message,
+        ));
       }, (r) {
         final minY = r.reduce((a, b) => a.value < b.value ? a : b);
         final maxY = r.reduce((a, b) => a.value > b.value ? a : b);
@@ -96,7 +101,17 @@ class EnergyBloc extends Bloc<EnergyEvent, EnergyState> {
     ClearCacheEvent event,
     Emitter<EnergyState> emit,
   ) async {
-    await deleteCache(null);
+    final result = await deleteCache(null);
+    result.fold((l) {
+      emit(state.copyWith(
+        clearCacheStatus: ClearCacheStatus.failed,
+        errorMessage: l.message,
+      ));
+      emit(state.copyWith(clearCacheStatus: ClearCacheStatus.init));
+    }, (_) {
+      emit(state.copyWith(clearCacheStatus: ClearCacheStatus.succeed));
+      emit(state.copyWith(clearCacheStatus: ClearCacheStatus.init));
+    });
   }
 
   Future<void> _onSelectDateEvent(

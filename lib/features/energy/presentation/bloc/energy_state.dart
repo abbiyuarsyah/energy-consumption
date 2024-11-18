@@ -1,5 +1,5 @@
 import 'package:energy_consumption/core/enums/energy_type.dart';
-import 'package:energy_consumption/core/enums/state_status.dart';
+import 'package:energy_consumption/core/enums/status.dart';
 import 'package:energy_consumption/features/energy/domain/entities/energy_entity.dart';
 import 'package:equatable/equatable.dart';
 
@@ -11,6 +11,8 @@ class EnergyState extends Equatable {
     required this.selectedEnergyEntity,
     required this.stateStatus,
     required this.selectedDate,
+    required this.clearCacheStatus,
+    required this.errorMessage,
   });
 
   final List<EnergyTypeMapper> energy;
@@ -19,6 +21,8 @@ class EnergyState extends Equatable {
   final EnergyEntity selectedEnergyEntity;
   final StateStatus stateStatus;
   final DateTime selectedDate;
+  final ClearCacheStatus clearCacheStatus;
+  final String errorMessage;
 
   EnergyState copyWith({
     List<EnergyTypeMapper>? energy,
@@ -28,6 +32,8 @@ class EnergyState extends Equatable {
     EnergyEntity? selectedEnergyEntity,
     StateStatus? stateStatus,
     DateTime? selectedDate,
+    ClearCacheStatus? clearCacheStatus,
+    String? errorMessage,
   }) {
     return EnergyState(
       energy: energy ?? this.energy,
@@ -36,6 +42,8 @@ class EnergyState extends Equatable {
       selectedEnergyEntity: selectedEnergyEntity ?? this.selectedEnergyEntity,
       stateStatus: stateStatus ?? this.stateStatus,
       selectedDate: selectedDate ?? this.selectedDate,
+      clearCacheStatus: clearCacheStatus ?? this.clearCacheStatus,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
@@ -47,6 +55,8 @@ class EnergyState extends Equatable {
         selectedEnergyEntity,
         stateStatus,
         selectedDate,
+        clearCacheStatus,
+        errorMessage,
       ];
 }
 

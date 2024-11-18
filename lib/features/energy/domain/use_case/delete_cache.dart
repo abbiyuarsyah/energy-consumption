@@ -13,8 +13,8 @@ class DeleteCache extends UseCase<void, Object?> {
   Future<Either<Failure, void>> call(Object? params) async {
     try {
       return Right(repository.deletCachce());
-    } catch (e) {
-      return Left(ServerFailure());
+    } catch (_) {
+      return Left(DeleteCacheFailure());
     }
   }
 }
